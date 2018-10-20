@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Reporter" Height="461.343" Width="820"
         Background="#444444">
-    <Window.Resources>
+    <Window.Resources x:Uid="ResourceButtonStyle">
         <Style TargetType="Button">
             <Setter Property="Background" Value="White" />
             <Setter Property="TextBlock.TextAlignment" Value="Center" />
