@@ -25,9 +25,25 @@ namespace WpfTest
             InitializeComponent();
         }
 
-        private void RichTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
 
+        private void Arlo_Click(object sender, RoutedEventArgs e)
+        {
+            Controller.TextAdd(StaticTestData.Diagnoses[2], this.EditBox);
+        }
+
+        private void EditBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            this.EditBox.Focus();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Controller.TextAdd(StaticTestData.Diagnoses[0], this.EditBox);
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            Controller.TextAdd(StaticTestData.Diagnoses[3], this.EditBox);
         }
     }
 }
