@@ -6,25 +6,10 @@
         xmlns:sys="clr-namespace:System;assembly=system"
         xmlns:local="clr-namespace:WpfTest"
         mc:Ignorable="d"
-        Title="Reporter" Height="466.841" Width="820"
+        Title="Reporter" Height="467.626" Width="809.79"
         Background="#444444">
-    <!--<Window.Resources x:Uid="ResourceButtonStyle">
-        <Style TargetType="Button">
-            <Setter Property="Background" Value="White" />
-            <Setter Property="TextBlock.TextAlignment" Value="Center" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border  CornerRadius="1" Background="#ccc" BorderBrush="#eee" BorderThickness="1,2,0,0" >
-                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Resources>-->
 
-    <Grid Margin="5">
+    <Grid Margin="5,5,-8,10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="2*"/>
@@ -70,7 +55,7 @@
                     <Button Margin="2" Content="Cervix Bx" Background="#FFDAB5B5"/>
                     <Button Margin="2" Content="Cervix Bx"/>
                     <Button Margin="2" Content="Cervix Bx"/>
-                    <Button Margin="2" Content="Cervix Bx">
+                    <Button Margin="2" Content="{Binding Height}">
                         <Button.Background>
                             <RadialGradientBrush>
                                 <GradientStop Color="Black" Offset="0"/>
@@ -90,32 +75,35 @@
                          Padding="2" Text="Benign Uterus    Variation 7    Code 247676.34"/>
             </StackPanel>
         </StackPanel>
-        <StackPanel Margin="10, 0, 0, 0" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Auto">
 
-            <TextBlock Margin="0" Height="20" Text="Report:"/>
-            <TextBox IsReadOnly="True" Background="#AAAACC" Padding="2" Text="Benign Uterus    Variation 7    Code 247676.34"/>
+        <DockPanel Margin="5,5,15,5" Name="Container" Grid.Column="1"  DockPanel.Dock="Top">
+            <TextBox DockPanel.Dock="Top" IsReadOnly="True" Background="#AAAACC" Padding="2" Text="Benign Uterus    Variation 7    Code 247676.34"/>
+            <StatusBar DockPanel.Dock="Bottom" />
+
             <!--EditTextBox-->
-            <TextBox   
-                x:Name="EditBox"
-                Margin="0 5" 
-                Padding="5 5 5 5" 
-                Width="525"
-                TextChanged="EditBox_TextChanged" 
-                Block.LineHeight="8" 
-                TextWrapping="Wrap"
-                AcceptsReturn="True"
-                SpellCheck.IsEnabled="True" 
-                VerticalScrollBarVisibility="Visible" 
-                HorizontalAlignment="Left" 
-                ScrollViewer.CanContentScroll="True" 
-                Height="372" 
-                AcceptsTab="False" 
-                Background="#FF1F1F1F" 
-                Foreground="#EEEEEE">
+            <TextBox
+                    Grid.Row="1"
+                     HorizontalAlignment="Stretch"
+
+                     Width="{Binding ElementName=Container,Path=ActualWidth}"
+                     VerticalScrollBarVisibility="Visible"
+                     Name="EditBox"
+                     Margin ="0,0,0,0" 
+                     Padding="25" 
+                     TextChanged="EditBox_TextChanged" 
+                     Block.LineHeight="8" 
+                     TextWrapping="Wrap"
+                     AcceptsReturn="True"
+                     SpellCheck.IsEnabled="True" 
+                     ScrollViewer.CanContentScroll="True" 
+                     AcceptsTab="False" 
+                     Background="#FF1F1F1F" 
+                     Foreground="#EEEEEE">
                 <SpellCheck.CustomDictionaries>
                     <sys:Uri>pack://application:,,,/CustomSpellCheckDictionary.lex</sys:Uri>
                 </SpellCheck.CustomDictionaries>
             </TextBox>
-        </StackPanel>
+
+        </DockPanel>
     </Grid>
 </Window>

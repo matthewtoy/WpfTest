@@ -23,6 +23,7 @@ namespace WpfTest
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = this;
         }
 
 
