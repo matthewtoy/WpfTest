@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace WpfTest
 {
@@ -17,5 +19,31 @@ namespace WpfTest
             textbox.SelectedText = text;
             textbox.CaretIndex += text.Length;
         }
-    }
+
+
+
+
 }
+
+    public class DataModel  
+    {
+        public string Content { get; set; }
+
+        public ICommand Command { get; set; }
+
+        public DataModel(string content, ICommand command)
+        {
+            Content = content;
+            Command = command;
+        }
+
+        private readonly ObservableCollection<DataModel> _MyData = new ObservableCollection<DataModel>();
+        public ObservableCollection<DataModel> MyData { get { return _MyData; } }
+    }
+
+
+
+
+}
+
+

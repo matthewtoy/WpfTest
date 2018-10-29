@@ -6,8 +6,15 @@
         xmlns:sys="clr-namespace:System;assembly=system"
         xmlns:local="clr-namespace:WpfTest"
         mc:Ignorable="d"
-        Title="Reporter" Height="467.626" Width="809.79"
+        Title="Reporter" Height="479.321" Width="809.79"
         Background="#444444">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Background" Value="LightPink"/>
+        </Style>
+    </Window.Resources>
+
 
     <Grid Margin="5,5,-8,10">
         <Grid.ColumnDefinitions>
@@ -16,58 +23,21 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Margin="5" Orientation="Vertical">
-            <Button Margin="2" x:Name="Arlo" Click="Arlo_Click" Content="Arlo"></Button>
-            <Button Margin="2" Content="Barlow"></Button>
-            <Button Margin="2" Content="Carlo"></Button>
-            <Button Margin="2" Content="Darlo"></Button>
+            <Button x:Name="Arlo" Click="Arlo_Click" Content="Arlo"></Button>
+            <Button Content="{Binding Height}"></Button>
+            <Button Content="{Binding Width}"></Button>
+            <Button Content="Darlo"></Button>
             <Label Margin="0 20 0 0" Content="Diagnoses:"/>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0">
-                    <Button Margin="2" Content="Uterus Ben." Click="Button_Click" Background="#FF768EB8"/>
-                    <Button Margin="2" Content="Uterus Ben."/>
-                    <Button Margin="2" Content="Uterus Ben."/>
-                    <Button Margin="2" Content="Uterus Ben."/>
-                    <Button Margin="2" Content="Uterus Ben."/>
-                    <Button Margin="2" Content="Uterus Ben." Background="#FF8FA447"/>
-                    <Button Margin="2" Content="Uterus Ben."/>
-                    <Button Margin="2" Content="Uterus Ben."/>
-                    <Button Margin="2" Content="Uterus Ben."/>
-                </StackPanel>
-                <StackPanel Grid.Column="1">
-                    <Button Margin="2" Content="Uterus Mal." Click="Button_Click_1"/>
-                    <Button Margin="2" Content="Uterus Mal."/>
-                    <Button Margin="2" Content="Uterus Mal."/>
-                    <Button Margin="2" Content="Uterus Mal."/>
-                    <Button Margin="2" Content="Uterus Mal." Background="#FFBF5A5A"/>
-                    <Button Margin="2" Content="Uterus Mal." Background="#FF248783"/>
-                    <Button Margin="2" Content="Uterus Mal."/>
-                    <Button Margin="2" Content="Uterus Mal."/>
-                    <Button Margin="2" Content="Uterus Mal."/>
-                </StackPanel>
-                <StackPanel Grid.Column="3">
-                    <Button Margin="2" Content="Cervix Bx"/>
-                    <Button Margin="2" Content="Cervix Bx"/>
-                    <Button Margin="2" Content="Cervix Bx" Background="#FFDAB5B5"/>
-                    <Button Margin="2" Content="Cervix Bx"/>
-                    <Button Margin="2" Content="Cervix Bx"/>
-                    <Button Margin="2" Content="{Binding Height}">
-                        <Button.Background>
-                            <RadialGradientBrush>
-                                <GradientStop Color="Black" Offset="0"/>
-                                <GradientStop Color="#FF66AA56"/>
-                            </RadialGradientBrush>
-                        </Button.Background>
-                    </Button>
-                    <Button Margin="2" Content="Cervix Bx"/>
-                    <Button Margin="2" Content="Cervix Bx"/>
-                    <Button Margin="2" Content="Cervix Bx"/>
-                </StackPanel>
-            </Grid>
+            <ItemsControl ItemsSource="{Binding MyData}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Content="{Binding Content}" Command="{Binding Command}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <UniformGrid Name="ButtonGrid">
+
+            </UniformGrid>
             <StackPanel>
                 <TextBlock Margin="0 9 0 8" Text="Codes"/>
                 <TextBox x:Name="GreenTextBox" 
@@ -84,12 +54,11 @@
             <TextBox
                     Grid.Row="1"
                      HorizontalAlignment="Stretch"
-
                      Width="{Binding ElementName=Container,Path=ActualWidth}"
                      VerticalScrollBarVisibility="Visible"
                      Name="EditBox"
                      Margin ="0,0,0,0" 
-                     Padding="25" 
+                     Padding="5" 
                      TextChanged="EditBox_TextChanged" 
                      Block.LineHeight="8" 
                      TextWrapping="Wrap"
@@ -103,7 +72,6 @@
                     <sys:Uri>pack://application:,,,/CustomSpellCheckDictionary.lex</sys:Uri>
                 </SpellCheck.CustomDictionaries>
             </TextBox>
-
         </DockPanel>
     </Grid>
 </Window>

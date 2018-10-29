@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,8 +25,35 @@ namespace WpfTest
         {
             InitializeComponent();
             this.DataContext = this;
+
+            var DiagnosisCollection = new ObservableCollection<Diagnosis>();
+
+            for (int i = 0; i < 10; i++)
+            {
+                var diag = new Diagnosis(StaticTestData.Labels[i],StaticTestData.Diagnoses[i]);
+                DiagnosisCollection.Add(diag);
+
+
+            }
+
+            foreach (var d in DiagnosisCollection)
+            {
+                var btn = new Button()
+                {
+                    Content = d.Name,
+                    Tag = d.Text
+                };
+                btn.Click += new RoutedEventHandler(Button_Click);
+                ButtonGrid.Children.Add(btn);
+            }
+
+
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Controller.TextAdd((sender as Button).Tag.ToString(), this.EditBox);
+        }
 
         private void Arlo_Click(object sender, RoutedEventArgs e)
         {
@@ -37,14 +65,5 @@ namespace WpfTest
             this.EditBox.Focus();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Controller.TextAdd(StaticTestData.Diagnoses[0], this.EditBox);
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            Controller.TextAdd(StaticTestData.Diagnoses[3], this.EditBox);
-        }
     }
 }

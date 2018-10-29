@@ -1,16 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WpfTest
+﻿namespace WpfTest
 {
     class Diagnosis
     {
-        public Diagnosis()
+        public string Name { get; set; }
+        public string Text { get; set; }
+
+        public Diagnosis(string name, string text)
         {
-               
+            this.Name = name;
+            this.Text = text;
+        }
+
+        public override string ToString()
+        {
+            return "Diagnosis." + Name;
         }
     }
+
 }
+
+
