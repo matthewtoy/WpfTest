@@ -32,8 +32,6 @@ namespace WpfTest
             {
                 var diag = new Diagnosis(StaticTestData.Labels[i],StaticTestData.Diagnoses[i]);
                 DiagnosisCollection.Add(diag);
-
-
             }
 
             foreach (var d in DiagnosisCollection)
@@ -47,23 +45,21 @@ namespace WpfTest
                 ButtonGrid.Children.Add(btn);
             }
 
-
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Controller.TextAdd((sender as Button).Tag.ToString(), this.EditBox);
+            TextBoxController.TextAdd((sender as Button).Tag.ToString(), this.EditBox);
         }
 
         private void Arlo_Click(object sender, RoutedEventArgs e)
         {
-            Controller.TextAdd(StaticTestData.Diagnoses[2], this.EditBox);
+            TextBoxController.TextAdd(StaticTestData.Diagnoses[2], this.EditBox);
         }
 
         private void EditBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             this.EditBox.Focus();
         }
-
     }
 }

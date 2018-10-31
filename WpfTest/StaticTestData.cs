@@ -37,8 +37,6 @@ namespace WpfTest
             "Famine",
             "Death",
             "Gautama",
-
-
         };
     }
 }
