@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Serialization;
 
 namespace WpfTest
 {
@@ -44,6 +46,38 @@ namespace WpfTest
                 btn.Click += new RoutedEventHandler(Button_Click);
                 ButtonGrid.Children.Add(btn);
             }
+
+            var Diagnoses = new ObservableCollection<TestObject>();
+
+            Diagnoses.Add(new TestObject
+            {
+                Name = "Poel",
+                Diagnosis = "hyperchondria",
+                Code = "M6877485"
+            });
+
+            Diagnoses.Add(new TestObject
+            {
+                Name = "Henrietta",
+                Diagnosis = "midichlorians",
+                Code = "01904"
+            });
+
+            XmlSerializer Serializer = new XmlSerializer(Diagnoses.GetType());
+
+            using (TextWriter writer = new StreamWriter(@".\WpfTest.xml"))
+            {
+                Serializer.Serialize(writer, Diagnoses);
+            }
+
+
+
+
+
+
+
+
+
 
         }
 
