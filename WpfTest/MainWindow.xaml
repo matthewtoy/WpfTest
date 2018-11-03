@@ -28,13 +28,13 @@
             <Button Content="{Binding Width}"></Button>
             <Button Content="Darlo"></Button>
             <Label Margin="0 20 0 0" Content="Diagnoses:"/>
-            <ItemsControl ItemsSource="{Binding MyData}">
+            <!--<ItemsControl ItemsSource="{Binding MyData}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Button Content="{Binding Content}" Command="{Binding Command}"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            </ItemsControl>-->
             <UniformGrid Name="ButtonGrid">
 
             </UniformGrid>
@@ -67,7 +67,7 @@
                      ScrollViewer.CanContentScroll="True" 
                      AcceptsTab="False" 
                      Background="#FF1F1F1F" 
-                     Foreground="#EEEEEE">
+                     Foreground="#EEEEEE" FontSize="16">
                 <SpellCheck.CustomDictionaries>
                     <sys:Uri>pack://application:,,,/CustomSpellCheckDictionary.lex</sys:Uri>
                 </SpellCheck.CustomDictionaries>

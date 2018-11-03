@@ -30,10 +30,11 @@ namespace WpfTest
 
             var DiagnosisCollection = new ObservableCollection<Diagnosis>();
 
-            for (int i = 0; i < 10; i++)
+            XmlSerializer Serializer = new XmlSerializer(DiagnosisCollection.GetType());
+
+            using (TextReader reader = new StreamReader(@".\InitialDiagnoses.xml"))
             {
-                var diag = new Diagnosis(StaticTestData.Labels[i],StaticTestData.Diagnoses[i]);
-                DiagnosisCollection.Add(diag);
+                DiagnosisCollection = (ObservableCollection<Diagnosis>)Serializer.Deserialize(reader);
             }
 
             foreach (var d in DiagnosisCollection)
@@ -47,37 +48,10 @@ namespace WpfTest
                 ButtonGrid.Children.Add(btn);
             }
 
-            var Diagnoses = new ObservableCollection<TestObject>();
-
-            Diagnoses.Add(new TestObject
-            {
-                Name = "Poel",
-                Diagnosis = "hyperchondria",
-                Code = "M6877485"
-            });
-
-            Diagnoses.Add(new TestObject
-            {
-                Name = "Henrietta",
-                Diagnosis = "midichlorians",
-                Code = "01904"
-            });
-
-            XmlSerializer Serializer = new XmlSerializer(Diagnoses.GetType());
-
             using (TextWriter writer = new StreamWriter(@".\WpfTest.xml"))
             {
-                Serializer.Serialize(writer, Diagnoses);
+                Serializer.Serialize(writer, DiagnosisCollection);
             }
-
-
-
-
-
-
-
-
-
 
         }
 
@@ -88,7 +62,7 @@ namespace WpfTest
 
         private void Arlo_Click(object sender, RoutedEventArgs e)
         {
-            TextBoxController.TextAdd(StaticTestData.Diagnoses[2], this.EditBox);
+            //not implemented
         }
 
         private void EditBox_TextChanged(object sender, TextChangedEventArgs e)

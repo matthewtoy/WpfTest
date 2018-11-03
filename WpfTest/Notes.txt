@@ -1,0 +1,30 @@
+﻿
+            for (int i = 0; i < 10; i++)
+            {
+                var diag = new Diagnosis(StaticTestData.Labels[i],StaticTestData.Diagnoses[i]);
+                DiagnosisCollection.Add(diag);
+            }
+
+			This was loading of initial Diagnosis objects from STaticTestData.
+			Now load these from InitialDiagnoses.xml
+
+			Do need XMLreader? - currently using TextReader/Writer
+
+			Next need to try binding buttons with a TextAdd Command.
+			Need more understanding of CommandParameter and [CallerMemberName]
+			It's between this or just continuing with the button.tag passing info to the method.
+
+			Now need to add spectype or speciality tags to Diagnosis objects.
+			Then filter view of buttons by those tags (hardcode a tag to begin with )
+
+			Then need to separate object of single diagnosis with whole text-edited report.
+			Should be able to edit diagnosis test and offer save over or save as varient.
+			Then add it to main report text.
+			Textbox should switch views by binding to a view controler object which has current display text.
+
+			Then need to develop search-as-type autocomplete combobox filtered by tag and perhaps ordered by usage frequency (later)
+			
+			Eventually convert text to flow document, with different coloured text to show changes/diffs and option of formatting/images etc.
+
+			Develop command system for button and keyboard shortcut binding.  UIRoutedCommand seems to be the one.
+			Need Save-over, save-as-varient, Save-as-new, AddReportText, Undo/Redo (could just track state of DiagnosisText and ReportText objects, and XML persistence objects)

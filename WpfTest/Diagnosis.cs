@@ -1,9 +1,14 @@
 ﻿namespace WpfTest
 {
-    class Diagnosis
+    public class Diagnosis
     {
         public string Name { get; set; }
         public string Text { get; set; }
+
+        public Diagnosis()
+        {
+
+        }
 
         public Diagnosis(string name, string text)
         {
