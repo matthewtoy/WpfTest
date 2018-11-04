@@ -5,15 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:sys="clr-namespace:System;assembly=system"
         xmlns:local="clr-namespace:WpfTest"
+        xmlns:w="clr-namespace:WpfTest"
+        
         mc:Ignorable="d"
         Title="Reporter" Height="479.321" Width="809.79"
         Background="#444444">
     <Window.Resources>
+        <RoutedUICommand x:Key="DoSomethingCommand" Text="Do Something" />
         <Style TargetType="Button">
             <Setter Property="Margin" Value="2"/>
             <Setter Property="Background" Value="CornflowerBlue"/>
         </Style>
     </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="{StaticResource DoSomethingCommand}" Executed="CommandBinding_DoSomething" />
+    </Window.CommandBindings>
+
 
 
     <Grid Margin="5,5,-8,10">
@@ -23,10 +30,23 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Margin="5" Orientation="Vertical">
-            <Button x:Name="Arlo" Click="Arlo_Click" Content="Arlo"></Button>
+            <Button
+                x:Name="Arlo" 
+                Command="Cut"
+                CommandTarget="{Binding ElementName=EditBox}"
+                Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"
+            />
+
             <Button Content="{Binding Height}"></Button>
-            <Button Content="{Binding Width}"></Button>
-            <Button Content="Darlo"></Button>
+            <Button
+                Command="{StaticResource DoSomethingCommand}"
+                Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"
+ 
+                />
+            <Button                 
+                Command="Paste"
+                CommandTarget="{Binding ElementName=EditBox}"
+                Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"/>
             <Label Margin="0 20 0 0" Content="Diagnoses:"/>
             <!--<ItemsControl ItemsSource="{Binding MyData}">
                 <ItemsControl.ItemTemplate>

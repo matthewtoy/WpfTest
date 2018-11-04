@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Serialization;
+using WpfTest;
 
 namespace WpfTest
 {
@@ -52,8 +53,7 @@ namespace WpfTest
             {
                 Serializer.Serialize(writer, DiagnosisCollection);
             }
-
-        }
+    }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -69,5 +69,11 @@ namespace WpfTest
         {
             this.EditBox.Focus();
         }
+
+        public void CommandBinding_DoSomething(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("hello");
+        }
     }
+
 }

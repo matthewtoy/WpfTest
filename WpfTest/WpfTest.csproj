@@ -71,6 +71,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Commands.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="Diagnosis.cs" />
     <Compile Include="MainWindow.xaml.cs">
