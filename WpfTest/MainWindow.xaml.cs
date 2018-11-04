@@ -27,43 +27,50 @@ namespace WpfTest
         public MainWindow()
         {
             InitializeComponent();
+            // Window height binding to button needs this:
             this.DataContext = this;
 
+            #region Diagnosis Collection
+            // holds diagnosis canned text objects in collection that implements INotifyPropertyChanged or something:
             var DiagnosisCollection = new ObservableCollection<Diagnosis>();
+            #endregion Diagnosis Collection
 
+
+            #region XML Serializer to Load Diagnoses
             XmlSerializer Serializer = new XmlSerializer(DiagnosisCollection.GetType());
 
             using (TextReader reader = new StreamReader(@".\InitialDiagnoses.xml"))
             {
                 DiagnosisCollection = (ObservableCollection<Diagnosis>)Serializer.Deserialize(reader);
             }
+            #endregion
 
+            #region Generate Buttons
             foreach (var d in DiagnosisCollection)
             {
                 var btn = new Button()
                 {
                     Content = d.Name,
-                    Tag = d.Text
+                    Tag = d,
                 };
-                btn.Click += new RoutedEventHandler(Button_Click);
+                btn.Click += new RoutedEventHandler(CommandBinding_AddDiagnosisCommand);
                 ButtonGrid.Children.Add(btn);
-            }
+            } 
+            #endregion
 
+            #region XML Serializer save diagnoses
             using (TextWriter writer = new StreamWriter(@".\WpfTest.xml"))
             {
                 Serializer.Serialize(writer, DiagnosisCollection);
-            }
-    }
+            } 
+            #endregion
+        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             TextBoxController.TextAdd((sender as Button).Tag.ToString(), this.EditBox);
         }
 
-        private void Arlo_Click(object sender, RoutedEventArgs e)
-        {
-            //not implemented
-        }
 
         private void EditBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -73,6 +80,14 @@ namespace WpfTest
         public void CommandBinding_DoSomething(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("hello");
+        }
+
+        public void CommandBinding_AddDiagnosisCommand(object sender, RoutedEventArgs e)
+        {
+            var buttonTag = (sender as Button).Tag;
+            var diagnosis = (buttonTag as Diagnosis);
+            TextBoxController.TextAdd(diagnosis.Text, this.EditBox);
+
         }
     }
 

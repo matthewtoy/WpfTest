@@ -12,6 +12,7 @@
         Background="#444444">
     <Window.Resources>
         <RoutedUICommand x:Key="DoSomethingCommand" Text="Do Something" />
+        <RoutedUICommand x:Key="AddDiagnosisCommand" Text="Add Diagnosis" />
         <Style TargetType="Button">
             <Setter Property="Margin" Value="2"/>
             <Setter Property="Background" Value="CornflowerBlue"/>
@@ -19,6 +20,7 @@
     </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="{StaticResource DoSomethingCommand}" Executed="CommandBinding_DoSomething" />
+        <CommandBinding Command="{StaticResource AddDiagnosisCommand}" Executed="CommandBinding_AddDiagnosisCommand" />
     </Window.CommandBindings>
 
 
@@ -47,6 +49,10 @@
                 Command="Paste"
                 CommandTarget="{Binding ElementName=EditBox}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"/>
+            <Button
+                Command="{StaticResource AddDiagnosisCommand}"
+                Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}">
+            </Button>
             <Label Margin="0 20 0 0" Content="Diagnoses:"/>
             <!--<ItemsControl ItemsSource="{Binding MyData}">
                 <ItemsControl.ItemTemplate>
