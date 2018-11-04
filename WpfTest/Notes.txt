@@ -1,12 +1,4 @@
 ﻿
-            for (int i = 0; i < 10; i++)
-            {
-                var diag = new Diagnosis(StaticTestData.Labels[i],StaticTestData.Diagnoses[i]);
-                DiagnosisCollection.Add(diag);
-            }
-
-			This was loading of initial Diagnosis objects from STaticTestData.
-			Now load these from InitialDiagnoses.xml
 
 			Do need XMLreader? - currently using TextReader/Writer
 
@@ -28,3 +20,17 @@
 
 			Develop command system for button and keyboard shortcut binding.  UIRoutedCommand seems to be the one.
 			Need Save-over, save-as-varient, Save-as-new, AddReportText, Undo/Redo (could just track state of DiagnosisText and ReportText objects, and XML persistence objects)
+			TextBox has good native undo/redo.  Need separate undo/redo system for save/clear diagnoses and add to dictionary.
+
+			Additional user dictionary (compiled or not?) with add to dictionary and export function.
+
+MenuItem item = new MenuItem();
+item.Header = "Add to Dictionary";
+item.Click += new RoutedEventHandler(AddDict_Click);
+item.Command = EditingCommands.IgnoreSpellingError;
+item.CommandParameter = currentText;
+item.CommandTarget = txtBox;
+
+Just need the logic to open the Dictionary file and write the element in CommandParameter to the fil
+
+

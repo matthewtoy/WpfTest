@@ -97,12 +97,21 @@ namespace WpfTest
         public void LoadNewDiagnoses(object sender, RoutedEventArgs e)
         {
             XmlSerializer Serializer = new XmlSerializer(DiagnosisCollection.GetType());
-
-            using (TextReader reader = new StreamReader(UserDiagnosisXML))
+            if (File.Exists(UserDiagnosisXML))
             {
-                _DiagnosisCollection = (ObservableCollection<Diagnosis>)Serializer.Deserialize(reader);
+                DiagnosisCollection.Clear();
+                using (TextReader reader = new StreamReader(UserDiagnosisXML))
+                {
+                    var dc = (ObservableCollection<Diagnosis>)Serializer.Deserialize(reader);
+                    foreach (var d in dc)
+                    {
+                        DiagnosisCollection.Add(d);
+                    }
+  
+                }
+                GenerateButtons();
             }
-            GenerateButtons();
+                
         }
 
         public void ClearNewDiagnoses(object sender, RoutedEventArgs e)
@@ -178,7 +187,42 @@ namespace WpfTest
 
         }
 
+        private void cmbItem_PreviewMouseDown(object sender, EventArgs e)
+        {
+            //Sender is comboboxitem: Diagnosis
+            var item = sender as ComboBoxItem;
+            Diagnosis diagnosis = (Diagnosis)item.Content;
+
+            TextBoxController.TextAdd(diagnosis.Text, this.EditBox);
+            this.NameTextBox.Text = diagnosis.Name;
 
 
+        }
+
+
+
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+  // Do nothing
+        }
+
+        private void SearchBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                var name = SearchBox.Text;
+
+
+                if (DiagnosisCollection.Any(d => d.Name == name))
+                {
+                    var diagnosis = DiagnosisCollection.First(d => d.Name == name);
+                    if (diagnosis != null)
+                    {
+                        TextBoxController.TextAdd(diagnosis.Text, this.EditBox);
+                        this.NameTextBox.Text = diagnosis.Name;
+                    }
+                }
+            }
+        }
     }
 }
