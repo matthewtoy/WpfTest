@@ -10,6 +10,8 @@ namespace WpfTest
 {
     public static class Commands
     {
+
         public static readonly RoutedCommand AddDiagnosis = new RoutedCommand();
+        public static readonly RoutedCommand SaveReportAsDiagnosis = new RoutedCommand();
     }
 }

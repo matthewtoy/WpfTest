@@ -11,16 +11,21 @@
         Title="Reporter" Height="479.321" Width="809.79"
         Background="#444444">
     <Window.Resources>
-        <RoutedUICommand x:Key="DoSomethingCommand" Text="Do Something" />
+        <RoutedUICommand x:Key="ClearNewDiagnosesCommand" Text="Clear User Diagnoses" />
         <RoutedUICommand x:Key="AddDiagnosisCommand" Text="Add Diagnosis" />
+        <RoutedUICommand x:Key="SaveReportAsDiagnosisCommand" Text="Save as new Diagnosis" />
+        <RoutedUICommand x:Key="LoadNewDiagnosesCommand" Text="Load the new Diagnoses" />
+        
         <Style TargetType="Button">
             <Setter Property="Margin" Value="2"/>
             <Setter Property="Background" Value="CornflowerBlue"/>
         </Style>
     </Window.Resources>
     <Window.CommandBindings>
-        <CommandBinding Command="{StaticResource DoSomethingCommand}" Executed="CommandBinding_DoSomething" />
+        <CommandBinding Command="{StaticResource ClearNewDiagnosesCommand}" Executed="ClearNewDiagnoses" />
         <CommandBinding Command="{StaticResource AddDiagnosisCommand}" Executed="CommandBinding_AddDiagnosisCommand" />
+        <CommandBinding Command="{StaticResource SaveReportAsDiagnosisCommand}" Executed="CommandBinding_SaveReportAsDiagnosisCommand" />
+        <CommandBinding Command="{StaticResource LoadNewDiagnosesCommand}" Executed="LoadNewDiagnoses" />
     </Window.CommandBindings>
 
 
@@ -34,25 +39,23 @@
         <StackPanel Margin="5" Orientation="Vertical">
             <Button
                 x:Name="Arlo" 
-                Command="Cut"
+                Command="{StaticResource SaveReportAsDiagnosisCommand}"
                 CommandTarget="{Binding ElementName=EditBox}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"
             />
 
             <Button Content="{Binding Height}"></Button>
             <Button
-                Command="{StaticResource DoSomethingCommand}"
+                Command="{StaticResource ClearNewDiagnosesCommand}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"
- 
                 />
             <Button                 
                 Command="Paste"
                 CommandTarget="{Binding ElementName=EditBox}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"/>
-            <Button
-                Command="{StaticResource AddDiagnosisCommand}"
-                Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}">
-            </Button>
+            <Button                 
+                Command="{StaticResource LoadNewDiagnosesCommand}"
+                Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"/>
             <Label Margin="0 20 0 0" Content="Diagnoses:"/>
             <!--<ItemsControl ItemsSource="{Binding MyData}">
                 <ItemsControl.ItemTemplate>
@@ -68,7 +71,15 @@
                 <TextBlock Margin="0 9 0 8" Text="Codes"/>
                 <TextBox x:Name="GreenTextBox" 
                          Background="#AACCAA"
-                         Padding="2" Text="Benign Uterus    Variation 7    Code 247676.34"/>
+                         Padding="2"
+                         Text="Benign Uterus    Variation 7    Code 247676.34"/>
+                <TextBlock Margin="0 9 0 8" Text="Diagnosis:"/>
+                <TextBox x:Name="NameTextBox" 
+                         Background="#AADDEE"
+                         Padding="2"
+                         Text="">
+
+                </TextBox>
             </StackPanel>
         </StackPanel>
 

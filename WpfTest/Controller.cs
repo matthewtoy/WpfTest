@@ -10,13 +10,19 @@ namespace WpfTest
 {
     static class TextBoxController
     {
-        public static void TextAdd(string text, System.Windows.Controls.TextBox textbox)
+        public static void TextAdd(string text, System.Windows.Controls.TextBox textBox)
         {
             //MessageBox.Show($"The context of GreenBox are: {this.GreenTextBox.Text}");
-            textbox.SelectionStart = textbox.CaretIndex;
-            textbox.SelectionLength = 0; //this was missing
-            textbox.SelectedText = text;
-            textbox.CaretIndex += text.Length;
+            textBox.SelectionStart = textBox.CaretIndex;
+            textBox.SelectionLength = 0; //this was missing
+            textBox.SelectedText = text;
+            textBox.CaretIndex += text.Length;
+        }
+
+        public static string TextGet(System.Windows.Controls.TextBox textBox)
+        {
+            textBox.SelectAll();
+            return textBox.SelectedText;
         }
     }
 
