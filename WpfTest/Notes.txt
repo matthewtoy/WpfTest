@@ -33,4 +33,9 @@ item.CommandTarget = txtBox;
 
 Just need the logic to open the Dictionary file and write the element in CommandParameter to the fil
 
-
+			Need to experiment with Collectionviews next.  Try a sorted collectionview of DiagnosisCollection for ease with dropdown items.
+			Then filter it for speciality tags.
+			Speciality should have collection of spectypes.
+			Speciality and spectypes should be searchable from box, but trigger items filter and button regenerate rather than report entry.
+			Different colours for reports and spectypes etc.
+			Different colours for reports matching spectypes, or speciality, or ben/mal, or custom.  not sure yet.

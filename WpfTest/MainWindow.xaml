@@ -67,12 +67,14 @@
                      ItemsSource="{Binding Path=DiagnosisCollection}"
                      DisplayMemberPath="Name"
                      SelectedValuePath="Name"
-                     Background="#AADDEE"
+                     Background="#FFFBFFFB"
                      Margin="0 5 0 5"
                      Padding="2"
-                     Text="Search Diagnoses">
+                     Text="Search Diagnoses" Foreground="#FF050EC3" Style="{DynamicResource SearchBoxStyle}">
                 <ComboBox.ItemContainerStyle>
-                <Style>
+                <Style TargetType="ComboBoxItem">
+                    <Setter Property="Background" Value="Yellow"/>
+                    <Setter Property="BorderBrush" Value="Yellow"/>
                     <EventSetter Event="ComboBoxItem.PreviewMouseDown"
                     Handler="cmbItem_PreviewMouseDown"/>
                 </Style>
