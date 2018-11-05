@@ -39,3 +39,70 @@ Just need the logic to open the Dictionary file and write the element in Command
 			Speciality and spectypes should be searchable from box, but trigger items filter and button regenerate rather than report entry.
 			Different colours for reports and spectypes etc.
 			Different colours for reports matching spectypes, or speciality, or ben/mal, or custom.  not sure yet.
+
+			Then some serious refactoring is needed.
+			Extract mess of methods into sensible controler classes and only keep initialisation in mainwindow
+			Rationalize commands
+			Define Regions
+
+			SaveEdited
+			SaveAsNew
+			SaveAsVariant
+
+			Undo saves just with renaming overwritten to backup_timedate or whatever.
+			Purge backups daily, keeping just one representative per day (end of day) from last 30 days, one per month before that.
+			Backup XML to Firebase?
+
+			Keep stack of spellcheck dictionary word add/removes for undo.
+			Have right-click forget word in text editor.
+
+			Extend Diagnosis class to include:
+				spectype (list)
+				times used
+				list of variant Diagnoses - ?than inherit from it?  Base frequency?
+				bottomline
+				codes
+				notes
+				metadatadictionary?
+				category - diagnosis, snippet, dataset, other
+
+			?Diff relative to most used variant?
+
+			?Snippet category - e.g. negatives.  Immuno shows etc.  Fungal stain negative.
+			?code snippets inline text editing?  Could track textbox text and when keyword recognized, allow double-tab expansion.
+			Code snippet editor
+			- At first, just include from SearchBox.
+
+			Dataset reports - will likely need own custom windows.  Can shortcut quite a way with fine-grained search selection.
+
+			Preview window - for previewing report text and editing and saving - and for preview dataset answers.
+
+			Datasets need to be extensions.  Find out how to do that.  New classes that implement a dataset interface I guess.
+			Each should start as barebones form with fields.
+			Then add validation logic.
+			Then do calculations.
+			Then perhaps do UI or wizard input.
+			Could just tab through form in best order.
+			Needs a COSD XML output module.
+
+			Then need a LIM input module.
+			Possible command line trigger e.g. from Powerterm script.
+			Picks up demog, specimen details including macro.
+
+			Then need a report output module
+			Have a OnReportCompleted event for stuff to subscribe to.
+			Save to XML internally for backup (encrypt and to cloud)
+			Output to pdf or text or whatever (with format config)
+			Output to file for LIMS pickup or sendkeys to LIMS.
+
+			Form scan module?
+
+			Add safety features checking report.  Highlight certain words like:  grade, margin, positive, negative, numbers.  Missing "no".
+
+			Need to handle small logic in non-dataset reports, e.g. for margin comments, immunoresults
+			Maybe also use a preview window smart form.
+
+			Query my an old report database.
+
+				
+
