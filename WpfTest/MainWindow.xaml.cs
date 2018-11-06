@@ -27,38 +27,17 @@ namespace WpfTest
 
         public readonly string InitialDiagnosisXML = @".\InitialDiagnoses.xml";
         public readonly string UserDiagnosisXML = @".\WpfTest.xml";
-
-        #region Diagnosis Collection
-        // holds diagnosis canned text objects in collection that implements INotifyPropertyChanged or something:
-
         private ObservableCollection<Diagnosis> _DiagnosisCollection = new ObservableCollection<Diagnosis>();
         public ObservableCollection<Diagnosis> DiagnosisCollection { get { return _DiagnosisCollection; } }
-        #endregion Diagnosis Collection
 
 
         public MainWindow()
         {
             InitializeComponent();
-            // Window height binding to button needs this:
             this.DataContext = this;
-
-
-
-
-
-            #region XML Serializer to Load Diagnoses
-            LoadInitialDiagnoses();
-            #endregion
-
-
-            var MyCommands = new ObservableCollection<MyCommandWrapper>();
-
-            MyCommands.Add(new MyCommandWrapper() { Command = Commands.AddDiagnosis, DisplayName = "Add Diagnosis" });
-
+            _DiagnosisCollection = Repository.LoadCollection(InitialDiagnosisXML);
             GenerateButtons();
         }
-
- 
 
         private void GenerateButtons()
         {
@@ -75,61 +54,10 @@ namespace WpfTest
             }
         }
 
-        #region XMLSaveLoad
-        private void LoadInitialDiagnoses()
-        {
-            XmlSerializer Serializer = new XmlSerializer(DiagnosisCollection.GetType());
-
-            using (TextReader reader = new StreamReader(InitialDiagnosisXML))
-            {
-                _DiagnosisCollection = (ObservableCollection<Diagnosis>)Serializer.Deserialize(reader);
-            }
-        }
-
-        public void Serialize(ObservableCollection<Diagnosis> diagnosisCollection) {
-            using (TextWriter writer = new StreamWriter(UserDiagnosisXML))
-            {
-                XmlSerializer Serializer = new XmlSerializer(DiagnosisCollection.GetType());
-                Serializer.Serialize(writer, DiagnosisCollection);
-            }
-        }
-
-        public void LoadNewDiagnoses(object sender, RoutedEventArgs e)
-        {
-            XmlSerializer Serializer = new XmlSerializer(DiagnosisCollection.GetType());
-            if (File.Exists(UserDiagnosisXML))
-            {
-                DiagnosisCollection.Clear();
-                using (TextReader reader = new StreamReader(UserDiagnosisXML))
-                {
-                    var dc = (ObservableCollection<Diagnosis>)Serializer.Deserialize(reader);
-                    foreach (var d in dc)
-                    {
-                        DiagnosisCollection.Add(d);
-                    }
-  
-                }
-                GenerateButtons();
-            }
-                
-        }
-
-        public void ClearNewDiagnoses(object sender, RoutedEventArgs e)
-        {
-            DiagnosisCollection.Clear();
-            LoadInitialDiagnoses();
-            if (File.Exists(UserDiagnosisXML))
-            {
-                File.Delete(UserDiagnosisXML);
-            }
-            GenerateButtons();
-        }
-        #endregion XMLSaveLoad
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            TextBoxController.TextAdd((sender as Button).Tag.ToString(), this.EditBox);
-        }
+        //private void Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    TextBoxController.TextAdd((sender as Button).Tag.ToString(), this.EditBox);
+        //}
 
         private void EditBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -181,7 +109,7 @@ namespace WpfTest
                 Text = text
             };
             DiagnosisCollection.Add(diagnosis);
-            Serialize(DiagnosisCollection);
+            Repository.SaveCollection(DiagnosisCollection, InitialDiagnosisXML);
             GenerateButtons();
 
 

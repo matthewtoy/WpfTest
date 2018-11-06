@@ -24,10 +24,8 @@
         </Style>
     </Window.Resources>
     <Window.CommandBindings>
-        <CommandBinding Command="{StaticResource ClearNewDiagnosesCommand}" Executed="ClearNewDiagnoses" />
         <CommandBinding Command="{StaticResource AddDiagnosisCommand}" Executed="CommandBinding_AddDiagnosisCommand" />
         <CommandBinding Command="{StaticResource SaveReportAsDiagnosisCommand}" Executed="CommandBinding_SaveReportAsDiagnosisCommand" />
-        <CommandBinding Command="{StaticResource LoadNewDiagnosesCommand}" Executed="LoadNewDiagnoses" />
     </Window.CommandBindings>
 
 

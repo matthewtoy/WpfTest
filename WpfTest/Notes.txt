@@ -31,7 +31,7 @@ item.Command = EditingCommands.IgnoreSpellingError;
 item.CommandParameter = currentText;
 item.CommandTarget = txtBox;
 
-Just need the logic to open the Dictionary file and write the element in CommandParameter to the fil
+Just need the logic to open the Dictionary file and write the element in CommandParameter to the file
 
 			Need to experiment with Collectionviews next.  Try a sorted collectionview of DiagnosisCollection for ease with dropdown items.
 			Then filter it for speciality tags.
@@ -58,15 +58,16 @@ Just need the logic to open the Dictionary file and write the element in Command
 
 			Extend Diagnosis class to include:
 				spectype (list)
-				times used
-				list of variant Diagnoses - ?than inherit from it?  Base frequency?
+				speciality (these two may not be heirarchical, e.g. "gi polyp" or "punch biopsy")
+				list of variant Diagnoses - ?than inherit from it?  Save as diff? Base frequency?
 				bottomline
 				codes
 				notes
-				metadatadictionary?
+				metadatadictionary? (count of times used)
 				category - diagnosis, snippet, dataset, other
 
-			?Diff relative to most used variant?
+			?Diff relative to most used variant?  Could promote that to parent, expand all text in familly and then recalculate diffs.
+			Or just have as a sublist and find commonest each time and work out diffs on the fly.  What about editing "parent" text?  Propagate to varients?
 
 			?Snippet category - e.g. negatives.  Immuno shows etc.  Fungal stain negative.
 			?code snippets inline text editing?  Could track textbox text and when keyword recognized, allow double-tab expansion.
@@ -74,10 +75,11 @@ Just need the logic to open the Dictionary file and write the element in Command
 			- At first, just include from SearchBox.
 
 			Dataset reports - will likely need own custom windows.  Can shortcut quite a way with fine-grained search selection.
+			Or start with templates in main or preview window.  Basic templating language (Google) with fields and data specifications.  Dependent fields.
 
-			Preview window - for previewing report text and editing and saving - and for preview dataset answers.
+			Preview window - for previewing report text and editing and saving - and for preview dataset answers.  Or just use main window (Swap out text or see in place)
 
-			Datasets need to be extensions.  Find out how to do that.  New classes that implement a dataset interface I guess.
+			Datasets need to be extensions.  Find out how to do that.  New classes that implement a dataset interface I guess.  Or just templates.
 			Each should start as barebones form with fields.
 			Then add validation logic.
 			Then do calculations.
@@ -100,9 +102,9 @@ Just need the logic to open the Dictionary file and write the element in Command
 			Add safety features checking report.  Highlight certain words like:  grade, margin, positive, negative, numbers.  Missing "no".
 
 			Need to handle small logic in non-dataset reports, e.g. for margin comments, immunoresults
-			Maybe also use a preview window smart form.
+			Maybe also use a preview window smart form.  Maybe as templates.
 
-			Query my an old report database.
+			Query my old report database.
 
 				
 
