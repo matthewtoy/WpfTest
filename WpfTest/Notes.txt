@@ -33,7 +33,7 @@ item.CommandTarget = txtBox;
 
 Just need the logic to open the Dictionary file and write the element in CommandParameter to the file
 
-			Need to experiment with Collectionviews next.  Try a sorted collectionview of DiagnosisCollection for ease with dropdown items.
+	>>>>>>>>Need to experiment with Collectionviews next.  Try a sorted collectionview of DiagnosisCollection for ease with dropdown items.
 			Then filter it for speciality tags.
 			Speciality should have collection of spectypes.
 			Speciality and spectypes should be searchable from box, but trigger items filter and button regenerate rather than report entry.
@@ -43,11 +43,11 @@ Just need the logic to open the Dictionary file and write the element in Command
 			Then some serious refactoring is needed.
 			Extract mess of methods into sensible controler classes and only keep initialisation in mainwindow
 			Rationalize commands
-			Define Regions
+			Define Regions in XAML
 
 			SaveEdited
 			SaveAsNew
-			SaveAsVariant
+		>>>>SaveAsVariant - Produce data type for this.  It's a tree of some sort.
 
 			Undo saves just with renaming overwritten to backup_timedate or whatever.
 			Purge backups daily, keeping just one representative per day (end of day) from last 30 days, one per month before that.
