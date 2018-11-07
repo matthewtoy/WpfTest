@@ -57,12 +57,13 @@
                 Command="{StaticResource LoadNewDiagnosesCommand}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"/>
             <Label Target="{Binding ElementName=SearchBox}" Margin="0 8 0 0">_Search</Label>
+  
             <!--It's using the toString of Diagnosis objects for name display:'-->
             <ComboBox x:Name="SearchBox" 
                      TextBoxBase.TextChanged="SearchBox_TextChanged"
                      KeyDown="SearchBox_KeyDown"
                      IsEditable="True"
-                     ItemsSource="{Binding Path=DiagnosisCollection}"
+                     ItemsSource="{Binding Path=DiagnosisViewSource.Source}"
                      DisplayMemberPath="Name"
                      SelectedValuePath="Name"
                      Background="#FFFBFFFB"
@@ -78,6 +79,7 @@
                 </Style>
                 </ComboBox.ItemContainerStyle>
             </ComboBox>
+
             <Label Margin="0 10 0 0" Content="Diagnoses:"/>
 
 

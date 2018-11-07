@@ -1,4 +1,6 @@
-﻿namespace WpfTest
+﻿using System.Windows.Controls;
+
+namespace WpfTest
 {
     static class TextBoxController
     {
@@ -16,5 +18,14 @@
             textBox.SelectAll();
             return textBox.SelectedText;
         }
+
+        public static void ReplaceTextBox(TextBox textBox, string text)
+        {
+            textBox.Focus();
+            textBox.SelectAll();
+            textBox.SelectedText = text;
+            return;
+        }
+
     }
 }

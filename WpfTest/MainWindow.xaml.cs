@@ -3,141 +3,118 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace WpfTest
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-
-        public readonly string InitialDiagnosisXML = @".\InitialDiagnoses.xml";
-        public readonly string UserDiagnosisXML = @".\WpfTest.xml";
-        private ObservableCollection<Diagnosis> _DiagnosisCollection = new ObservableCollection<Diagnosis>();
-        public ObservableCollection<Diagnosis> DiagnosisCollection { get { return _DiagnosisCollection; } }
-
-
+        private readonly string initialDiagnosisXML = @".\InitialDiagnoses.xml";
+        public Diagnosis SelectedDiagnosis { get; set; }
+        public CollectionViewSource DiagnosisViewSource { get; set; }
+        public ObservableCollection<Diagnosis> DiagnosisCollection { get; set; }
+        public Repository Repository { get; set; }
         public MainWindow()
+
         {
             InitializeComponent();
-            this.DataContext = this;
-            _DiagnosisCollection = Repository.LoadCollection(InitialDiagnosisXML);
+            DataContext = this;
+            Repository = new Repository(DiagnosisCollection, initialDiagnosisXML);
+            DiagnosisCollection = Repository.LoadCollection();
+
+            DiagnosisViewSource = new CollectionViewSource();
+            DiagnosisViewSource.Source = DiagnosisCollection;
+            SelectedDiagnosis = DiagnosisCollection.First();
+
             GenerateButtons();
         }
+
+ 
 
         private void GenerateButtons()
         {
             ButtonGrid.Children.Clear();
             foreach (var d in DiagnosisCollection)
             {
-                var btn = new Button()
+                var btn = new Button
                 {
                     Content = d.Name,
-                    Tag = d,
+                    Tag = d
                 };
-                btn.Click += new RoutedEventHandler(CommandBinding_AddDiagnosisCommand);
+                btn.Click += CommandBinding_AddDiagnosisCommand;
                 ButtonGrid.Children.Add(btn);
             }
         }
 
-        //private void Button_Click(object sender, RoutedEventArgs e)
-        //{
-        //    TextBoxController.TextAdd((sender as Button).Tag.ToString(), this.EditBox);
-        //}
 
         private void EditBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            this.EditBox.Focus();
+            EditBox.Focus();
         }
 
         public void CommandBinding_AddDiagnosisCommand(object sender, RoutedEventArgs e)
         {
             var buttonTag = (sender as Button).Tag;
-            var diagnosis = (buttonTag as Diagnosis);
-            TextBoxController.TextAdd(diagnosis.Text, this.EditBox);
-            this.NameTextBox.Text = diagnosis.Name;
+            var diagnosis = buttonTag as Diagnosis;
+            TextBoxController.TextAdd(diagnosis.Text, EditBox);
+            NameTextBox.Text = diagnosis.Name;
         }
 
         public void CommandBinding_SaveReportAsDiagnosisCommand(object sender, RoutedEventArgs e)
         {
-            var name = TextBoxController.TextGet(this.NameTextBox);
-            if (String.IsNullOrEmpty(name))
+
+            var name = TextBoxController.TextGet(NameTextBox);
+            if (string.IsNullOrEmpty(name) || 
+                DiagnosisCollection.Any(d => d.Name == TextBoxController.TextGet(NameTextBox)))
             {
-                this.NameTextBox.Focus();
-                this.NameTextBox.SelectAll();
-                this.NameTextBox.SelectedText = "Please enter name";
+                TextBoxController.ReplaceTextBox(NameTextBox, "Please enter new name");
                 return;
-            } else if (DiagnosisCollection.Any(d => d.Name == name))
+            }
+            var text = TextBoxController.TextGet(EditBox);
+            if (string.IsNullOrEmpty(text))
             {
-                this.NameTextBox.Focus();
-                this.NameTextBox.SelectAll();
-                this.NameTextBox.SelectedText = "Please enter new name";
+                TextBoxController.ReplaceTextBox(EditBox, "Please enter report text");
                 return;
             }
 
-
-            var text = TextBoxController.TextGet(this.EditBox);
-            if (String.IsNullOrEmpty(text))
-            {
-                this.EditBox.Focus();
-                this.EditBox.SelectAll();
-                this.EditBox.SelectedText = "Please enter report text";
-                return;
-            }
-                
-
-            this.NameTextBox.Focus();
-            this.NameTextBox.SelectAll();
-            
-            var diagnosis = new Diagnosis()
-            {
-                Name = name,
-                Text = text
-            };
-            DiagnosisCollection.Add(diagnosis);
-            Repository.SaveCollection(DiagnosisCollection, InitialDiagnosisXML);
+            NameTextBox.Focus();
+            NameTextBox.SelectAll();
+            DiagnosisCollection.Add(new Diagnosis(name, text));
+            Repository.SaveCollection(DiagnosisCollection);
             GenerateButtons();
-
-
         }
+
 
         private void cmbItem_PreviewMouseDown(object sender, EventArgs e)
         {
             //Sender is comboboxitem: Diagnosis
             var item = sender as ComboBoxItem;
-            Diagnosis diagnosis = (Diagnosis)item.Content;
-
-            TextBoxController.TextAdd(diagnosis.Text, this.EditBox);
-            this.NameTextBox.Text = diagnosis.Name;
-
-
+            var diagnosis = (Diagnosis) item.Content;
+            TextBoxController.TextAdd(diagnosis.Text, EditBox);
+            NameTextBox.Text = diagnosis.Name;
         }
-
 
 
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-  // Do nothing
+            // Do nothing
         }
 
         private void SearchBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
+            if (e.Key != Key.Enter) return;
+            var name = SearchBox.Text;
+
+            if (DiagnosisCollection.All(d => d.Name != name)) return;
             {
-                var name = SearchBox.Text;
-
-
-                if (DiagnosisCollection.Any(d => d.Name == name))
-                {
-                    var diagnosis = DiagnosisCollection.First(d => d.Name == name);
-                    if (diagnosis != null)
-                    {
-                        TextBoxController.TextAdd(diagnosis.Text, this.EditBox);
-                        this.NameTextBox.Text = diagnosis.Name;
-                    }
-                }
+                var diagnosis = DiagnosisCollection.First(d => d.Name == name);
+                if (diagnosis == null) return;
+                TextBoxController.TextAdd(diagnosis.Text, EditBox);
+                NameTextBox.Text = diagnosis.Name;
             }
         }
     }

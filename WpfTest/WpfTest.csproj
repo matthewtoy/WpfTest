@@ -115,9 +115,9 @@
     <Resource Include="Notes.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="InitialDiagnoses.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <Content Include="InitialDiagnoses.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
