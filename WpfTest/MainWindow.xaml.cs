@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,10 +15,7 @@ namespace WpfTest
     public partial class MainWindow : Window
     {
         private readonly string initialDiagnosisXML = @".\InitialDiagnoses.xml";
-        public Diagnosis SelectedDiagnosis { get; set; }
-        public CollectionViewSource DiagnosisViewSource { get; set; }
-        public ObservableCollection<Diagnosis> DiagnosisCollection { get; set; }
-        public Repository Repository { get; set; }
+
         public MainWindow()
 
         {
@@ -30,10 +28,21 @@ namespace WpfTest
             DiagnosisViewSource.Source = DiagnosisCollection;
             SelectedDiagnosis = DiagnosisCollection.First();
 
+            Closed += MainWindow_Closed;
+
             GenerateButtons();
         }
 
- 
+        public Diagnosis SelectedDiagnosis { get; set; }
+        public CollectionViewSource DiagnosisViewSource { get; set; }
+        public ObservableCollection<Diagnosis> DiagnosisCollection { get; set; }
+        public Repository Repository { get; set; }
+
+
+        private void MainWindow_Closed(object sender, EventArgs e)
+        {
+            Repository.SaveCollection(DiagnosisCollection);
+        }
 
         private void GenerateButtons()
         {
@@ -56,28 +65,37 @@ namespace WpfTest
             EditBox.Focus();
         }
 
+        private void PreviewBox_OnTextChangedBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            //do nothing.
+        }
+
         public void CommandBinding_AddDiagnosisCommand(object sender, RoutedEventArgs e)
         {
             var buttonTag = (sender as Button).Tag;
             var diagnosis = buttonTag as Diagnosis;
+            TextBoxController.ReplaceTextBox(diagnosis.Text, PreviewBox);
             TextBoxController.TextAdd(diagnosis.Text, EditBox);
+            diagnosis.IncrementUseCount();
             NameTextBox.Text = diagnosis.Name;
+            var DiagnosisView = CollectionViewSource.GetDefaultView(DiagnosisCollection);
+            DiagnosisView.Refresh();
         }
 
         public void CommandBinding_SaveReportAsDiagnosisCommand(object sender, RoutedEventArgs e)
         {
-
             var name = TextBoxController.TextGet(NameTextBox);
-            if (string.IsNullOrEmpty(name) || 
+            if (string.IsNullOrEmpty(name) ||
                 DiagnosisCollection.Any(d => d.Name == TextBoxController.TextGet(NameTextBox)))
             {
-                TextBoxController.ReplaceTextBox(NameTextBox, "Please enter new name");
+                TextBoxController.ReplaceTextBox("Please enter new name", NameTextBox);
                 return;
             }
+
             var text = TextBoxController.TextGet(EditBox);
             if (string.IsNullOrEmpty(text))
             {
-                TextBoxController.ReplaceTextBox(EditBox, "Please enter report text");
+                TextBoxController.ReplaceTextBox("Please enter report text", EditBox);
                 return;
             }
 
@@ -94,8 +112,12 @@ namespace WpfTest
             //Sender is comboboxitem: Diagnosis
             var item = sender as ComboBoxItem;
             var diagnosis = (Diagnosis) item.Content;
+            TextBoxController.ReplaceTextBox(diagnosis.Text, PreviewBox);
             TextBoxController.TextAdd(diagnosis.Text, EditBox);
             NameTextBox.Text = diagnosis.Name;
+            diagnosis.IncrementUseCount();
+            var DiagnosisView = CollectionViewSource.GetDefaultView(DiagnosisCollection);
+            DiagnosisView.Refresh();
         }
 
 
@@ -113,9 +135,36 @@ namespace WpfTest
             {
                 var diagnosis = DiagnosisCollection.First(d => d.Name == name);
                 if (diagnosis == null) return;
+                TextBoxController.ReplaceTextBox(diagnosis.Text, PreviewBox);
                 TextBoxController.TextAdd(diagnosis.Text, EditBox);
                 NameTextBox.Text = diagnosis.Name;
+                diagnosis.IncrementUseCount();
+                var DiagnosisView = CollectionViewSource.GetDefaultView(DiagnosisCollection);
+                DiagnosisView.Refresh();
             }
+        }
+
+        private void SortAZButton_Click(object sender, RoutedEventArgs e)
+        {
+            var DiagnosisView = CollectionViewSource.GetDefaultView(DiagnosisCollection);
+            DiagnosisView.SortDescriptions.Clear();
+            DiagnosisView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
+        }
+
+        private void SortByUseButton_Click(object sender, RoutedEventArgs e)
+        {
+            var DiagnosisView = CollectionViewSource.GetDefaultView(DiagnosisCollection);
+            DiagnosisView.SortDescriptions.Clear();
+            DiagnosisView.SortDescriptions.Add(new SortDescription("UseCount", ListSortDirection.Descending));
+        }
+
+
+        private void SearchBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item = sender as ComboBoxItem;
+            var diagnosis = e.AddedItems[0] as Diagnosis;
+            TextBoxController.ReplaceTextBox(diagnosis.Text, PreviewBox);
+            SearchBox.Focus();
         }
     }
 }

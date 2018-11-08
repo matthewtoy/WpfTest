@@ -1,13 +1,20 @@
-﻿namespace WpfTest
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using WpfTest.Annotations;
+
+namespace WpfTest
 {
-    public class Diagnosis
+    public class Diagnosis : INotifyPropertyChanged
     {
         public string Name { get; set; }
         public string Text { get; set; }
 
+        public int UseCount { get; set; }
+
+
+        //  Need a paramaterless constructor in order to serialize with XMLSerialiser:
         public Diagnosis()
         {
-
         }
 
         public Diagnosis(string name, string text)
@@ -16,12 +23,22 @@
             this.Text = text;
         }
 
-        public override string ToString()
+        public override string ToString() => "Diagnosis." + Name;
+
+        public void IncrementUseCount()
         {
-            return "Diagnosis." + Name;
+            UseCount += 1;
+            OnPropertyChanged();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-
 }
 
 

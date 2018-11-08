@@ -58,6 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="TextBoxController.cs" />
     <Page Include="MainWindow.xaml">
