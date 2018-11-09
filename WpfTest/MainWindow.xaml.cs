@@ -16,6 +16,11 @@ namespace WpfTest
     {
         private readonly string initialDiagnosisXML = @".\InitialDiagnoses.xml";
 
+        public Diagnosis SelectedDiagnosis { get; set; }
+        public CollectionViewSource DiagnosisViewSource { get; set; }
+        public ObservableCollection<Diagnosis> DiagnosisCollection { get; set; }
+        public Repository Repository { get; set; }
+
         public MainWindow()
 
         {
@@ -33,11 +38,6 @@ namespace WpfTest
             GenerateButtons();
         }
 
-        public Diagnosis SelectedDiagnosis { get; set; }
-        public CollectionViewSource DiagnosisViewSource { get; set; }
-        public ObservableCollection<Diagnosis> DiagnosisCollection { get; set; }
-        public Repository Repository { get; set; }
-
 
         private void MainWindow_Closed(object sender, EventArgs e)
         {
@@ -47,14 +47,17 @@ namespace WpfTest
         private void GenerateButtons()
         {
             ButtonGrid.Children.Clear();
-            foreach (var d in DiagnosisCollection)
+            var sortedList = DiagnosisCollection.ToList();
+            sortedList.Sort();
+
+            foreach (var d in sortedList)
             {
                 var btn = new Button
                 {
                     Content = d.Name,
                     Tag = d
                 };
-                btn.Click += CommandBinding_AddDiagnosisCommand;
+                btn.Click += CommandBinding_PrintDiagnosisCommand;
                 ButtonGrid.Children.Add(btn);
             }
         }
@@ -70,7 +73,7 @@ namespace WpfTest
             //do nothing.
         }
 
-        public void CommandBinding_AddDiagnosisCommand(object sender, RoutedEventArgs e)
+        public void CommandBinding_PrintDiagnosisCommand(object sender, RoutedEventArgs e)
         {
             var buttonTag = (sender as Button).Tag;
             var diagnosis = buttonTag as Diagnosis;

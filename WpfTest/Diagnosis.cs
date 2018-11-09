@@ -1,10 +1,11 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using WpfTest.Annotations;
 
 namespace WpfTest
 {
-    public class Diagnosis : INotifyPropertyChanged
+    public class Diagnosis : INotifyPropertyChanged, IComparable
     {
         public string Name { get; set; }
         public string Text { get; set; }
@@ -25,6 +26,7 @@ namespace WpfTest
 
         public override string ToString() => "Diagnosis." + Name;
 
+ 
         public void IncrementUseCount()
         {
             UseCount += 1;
@@ -37,6 +39,11 @@ namespace WpfTest
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public int CompareTo(object obj)
+        {
+            return this.ToString().CompareTo(obj.ToString());
         }
     }
 }

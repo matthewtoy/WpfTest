@@ -22,7 +22,7 @@
         </Style>
     </Window.Resources>
     <Window.CommandBindings>
-        <CommandBinding Command="{StaticResource AddDiagnosisCommand}" Executed="CommandBinding_AddDiagnosisCommand" />
+        <CommandBinding Command="{StaticResource AddDiagnosisCommand}" Executed="CommandBinding_PrintDiagnosisCommand" />
         <CommandBinding Command="{StaticResource SaveReportAsDiagnosisCommand}" Executed="CommandBinding_SaveReportAsDiagnosisCommand" />
     </Window.CommandBindings>
 
@@ -111,7 +111,7 @@
             </StackPanel>
         </StackPanel>
 
-        <DockPanel Margin="5,5,2,5" Name="PreviewContainer" Grid.Column="1"  DockPanel.Dock="Top">
+        <DockPanel Margin="4,5,8,5" Name="PreviewContainer" Grid.Column="1"  DockPanel.Dock="Top">
             <TextBox DockPanel.Dock="Top" IsReadOnly="True" Background="#FFAFEABD" Padding="2" Text="Benign Uterus    Variation 7    Code 247676.34"/>
             <StatusBar DockPanel.Dock="Bottom" />
 
@@ -120,7 +120,7 @@
                     Grid.Row="1"
                      HorizontalAlignment="Stretch"
                      Width="{Binding ElementName=Container,Path=ActualWidth}"
-                     VerticalScrollBarVisibility="Visible"
+                     VerticalScrollBarVisibility="Auto"
                      Name="PreviewBox"
                      Margin ="0,0,0,0" 
                      Padding="5" 
@@ -138,7 +138,7 @@
                 </SpellCheck.CustomDictionaries>
             </TextBox>
         </DockPanel>
-        <DockPanel Margin="0,5,15,5" Name="EditContainer" Grid.Column="2"  DockPanel.Dock="Top">
+        <DockPanel Margin="0,5,14,5" Name="EditContainer" Grid.Column="2"  DockPanel.Dock="Top">
             <TextBox DockPanel.Dock="Top" IsReadOnly="True" Background="#AAAACC" Padding="2" Text="---- Report ----"/>
             <StatusBar DockPanel.Dock="Bottom" />
 
@@ -147,7 +147,7 @@
                 Grid.Row="2"
                 HorizontalAlignment="Stretch"
                 Width="{Binding ElementName=Container,Path=ActualWidth}"
-                VerticalScrollBarVisibility="Visible"
+                VerticalScrollBarVisibility="Auto"
                 Name="EditBox"
                 Margin ="0,0,0,0" 
                 Padding="5" 
