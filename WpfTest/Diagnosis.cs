@@ -9,8 +9,8 @@ namespace WpfTest
     {
         public string Name { get; set; }
         public string Text { get; set; }
-
         public int UseCount { get; set; }
+        public string DiagnosisGroup { get; set; }
 
 
         //  Need a paramaterless constructor in order to serialize with XMLSerialiser:
@@ -20,7 +20,8 @@ namespace WpfTest
 
         public Diagnosis(string name, string text)
         {
-            this.Name = name;
+            //DiagnosisGroup initialized to name.  If created as variant then this will be overwritten with the pre-existing DiagnosisGroup.
+            this.Name = this.DiagnosisGroup = name;
             this.Text = text;
         }
 

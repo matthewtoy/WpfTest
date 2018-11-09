@@ -165,9 +165,15 @@ namespace WpfTest
         private void SearchBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var item = sender as ComboBoxItem;
+            if (item == null) return;
             var diagnosis = e.AddedItems[0] as Diagnosis;
             TextBoxController.ReplaceTextBox(diagnosis.Text, PreviewBox);
             SearchBox.Focus();
+        }
+
+        private void CommandBinding_SaveReportAsDiagnosisCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
         }
     }
 }

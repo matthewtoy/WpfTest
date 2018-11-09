@@ -22,10 +22,9 @@
         </Style>
     </Window.Resources>
     <Window.CommandBindings>
-        <CommandBinding Command="{StaticResource AddDiagnosisCommand}" Executed="CommandBinding_PrintDiagnosisCommand" />
-        <CommandBinding Command="{StaticResource SaveReportAsDiagnosisCommand}" Executed="CommandBinding_SaveReportAsDiagnosisCommand" />
+        <CommandBinding Command="{x:Static w:Commands.PrintDiagnosisCommand}" Executed="CommandBinding_PrintDiagnosisCommand" />
+        <CommandBinding Command="{x:Static w:Commands.SaveReportAsDiagnosisCommand}" CanExecute="CommandBinding_SaveReportAsDiagnosisCommand_CanExecute"  Executed="CommandBinding_SaveReportAsDiagnosisCommand" />
     </Window.CommandBindings>
-
 
 
     <Grid Margin="5,5,-8,10">
@@ -38,7 +37,7 @@
         <StackPanel Margin="5" Orientation="Vertical">
             <Button
                 x:Name="Arlo" 
-                Command="{StaticResource SaveReportAsDiagnosisCommand}"
+                Command="{x:Static w:Commands.SaveReportAsDiagnosisCommand}"
                 CommandTarget="{Binding ElementName=EditBox}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"
             />

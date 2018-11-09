@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 
 namespace WpfTest
 {
-    public static class Commands
-    {
+   public class Commands
+   {
 
-        public static readonly RoutedCommand AddDiagnosis = new RoutedCommand();
-        public static readonly RoutedCommand SaveReportAsDiagnosis = new RoutedCommand();
-    }
+       public static RoutedUICommand PrintDiagnosisCommand = new RoutedUICommand(){Text = "Print Diagnosis to Report"};
+       public static RoutedUICommand SaveOverDiagnosisCommand = new RoutedUICommand(){Text = "Save to Replace Current Diagnosis"};
+       public static RoutedUICommand SaveAsVariantCommand = new RoutedUICommand(){Text="Save Text as Variant"};
+       public static RoutedUICommand SaveReportAsDiagnosisCommand = new RoutedUICommand(){Text = "Save Report as New Diagnosis"};
+
+
+   }
 }
