@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
 
 namespace WpfTest
@@ -114,6 +115,7 @@ namespace WpfTest
         {
             //Sender is comboboxitem: Diagnosis
             var item = sender as ComboBoxItem;
+            if (item == null) return;
             var diagnosis = (Diagnosis) item.Content;
             TextBoxController.ReplaceTextBox(diagnosis.Text, PreviewBox);
             TextBoxController.TextAdd(diagnosis.Text, EditBox);
@@ -164,9 +166,11 @@ namespace WpfTest
 
         private void SearchBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var item = sender as ComboBoxItem;
-            if (item == null) return;
+            var item = sender as ComboBox;
+            if (item == null||e==null) return;
+            if (e.AddedItems != null) return;
             var diagnosis = e.AddedItems[0] as Diagnosis;
+            if (diagnosis == null) return;
             TextBoxController.ReplaceTextBox(diagnosis.Text, PreviewBox);
             SearchBox.Focus();
         }
@@ -174,6 +178,16 @@ namespace WpfTest
         private void CommandBinding_SaveReportAsDiagnosisCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
+        }
+
+        private void CommandBinding_SaveAsVariantCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void CommandBinding_SaveAsVariant_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            System.Windows.Forms.MessageBox.Show("Test");
         }
     }
 }

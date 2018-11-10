@@ -24,6 +24,7 @@
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static w:Commands.PrintDiagnosisCommand}" Executed="CommandBinding_PrintDiagnosisCommand" />
         <CommandBinding Command="{x:Static w:Commands.SaveReportAsDiagnosisCommand}" CanExecute="CommandBinding_SaveReportAsDiagnosisCommand_CanExecute"  Executed="CommandBinding_SaveReportAsDiagnosisCommand" />
+        <CommandBinding Command="{x:Static w:Commands.SaveAsVariantCommand}" CanExecute="CommandBinding_SaveAsVariantCommand_CanExecute" Executed="CommandBinding_SaveAsVariant_Executed"/>
     </Window.CommandBindings>
 
 
@@ -44,7 +45,7 @@
 
             <Button Content="{Binding Height}"></Button>
             <Button
-                Command="{StaticResource ClearNewDiagnosesCommand}"
+                Command="{x:Static w:Commands.SaveAsVariantCommand}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"
                 />
             <Button                 
