@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace WpfTest
 {
@@ -168,7 +169,7 @@ namespace WpfTest
         {
             var item = sender as ComboBox;
             if (item == null||e==null) return;
-            if (e.AddedItems != null) return;
+            if (e.AddedItems == null||e.AddedItems.Count <1) return;
             var diagnosis = e.AddedItems[0] as Diagnosis;
             if (diagnosis == null) return;
             TextBoxController.ReplaceTextBox(diagnosis.Text, PreviewBox);
@@ -187,7 +188,58 @@ namespace WpfTest
 
         private void CommandBinding_SaveAsVariant_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            System.Windows.Forms.MessageBox.Show("Test");
+            var name = TextBoxController.TextGet(NameTextBox);
+            if (string.IsNullOrEmpty(name) ||
+                DiagnosisCollection.Any(d => d.Name == TextBoxController.TextGet(NameTextBox)))
+            {
+                TextBoxController.AppendText("Please enter variant name", NameTextBox);
+                return;
+            }
+
+            var text = PreviewBox.Text;
+            if (string.IsNullOrEmpty(text))
+            {
+                PreviewBox.Text = "Please enter report text";
+                return;
+            }
+
+            NameTextBox.Focus();
+            NameTextBox.SelectAll();
+            DiagnosisCollection.Add(new Diagnosis(name, text));
+            Repository.SaveCollection(DiagnosisCollection);
+            GenerateButtons();
+
+        }
+
+        private void CommandBinding_SaveOverExistingCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void CommandBinding_SaveOverExisting_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (DiagnosisViewSource.View.CurrentItem is Diagnosis diagnosis)
+            {
+                diagnosis.Text = PreviewBox.Text;
+                NameTextBox.Text = "Saved: " + diagnosis.Name;
+            }
+
+            NameTextBox.Focus();
+            NameTextBox.SelectAll();
+            Repository.SaveCollection(DiagnosisCollection);
+        }
+
+        private void CommandBinding_DeleteDiagnosisCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;                  
+        }
+
+        private void CommandBinding_DeleteDiagnosis_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (!(CollectionViewSource.GetDefaultView(DiagnosisCollection).CurrentItem is Diagnosis diagnosis)) return;
+            DiagnosisCollection.Remove(diagnosis);
+            NameTextBox.Text = "Deleted: " + diagnosis.Name;
+            GenerateButtons();
         }
     }
 }

@@ -8,7 +8,7 @@
         xmlns:w="clr-namespace:WpfTest"
         
         mc:Ignorable="d"
-        Title="Reporter" Height="517.408" Width="809.79"
+        Title="Reporter" Height="606" Width="1036"
         Background="#444444" d:DataContext="{d:DesignData }">
     <Window.Resources>
         <RoutedUICommand x:Key="ClearNewDiagnosesCommand" Text="Clear User Diagnoses" />
@@ -25,6 +25,8 @@
         <CommandBinding Command="{x:Static w:Commands.PrintDiagnosisCommand}" Executed="CommandBinding_PrintDiagnosisCommand" />
         <CommandBinding Command="{x:Static w:Commands.SaveReportAsDiagnosisCommand}" CanExecute="CommandBinding_SaveReportAsDiagnosisCommand_CanExecute"  Executed="CommandBinding_SaveReportAsDiagnosisCommand" />
         <CommandBinding Command="{x:Static w:Commands.SaveAsVariantCommand}" CanExecute="CommandBinding_SaveAsVariantCommand_CanExecute" Executed="CommandBinding_SaveAsVariant_Executed"/>
+        <CommandBinding Command="{x:Static w:Commands.SaveOverExistingCommand}" CanExecute="CommandBinding_SaveOverExistingCommand_CanExecute" Executed="CommandBinding_SaveOverExisting_Executed"/>
+        <CommandBinding Command="{x:Static w:Commands.DeleteDiagnosisCommand}" CanExecute="CommandBinding_DeleteDiagnosisCommand_CanExecute" Executed="CommandBinding_DeleteDiagnosis_Executed"/>
     </Window.CommandBindings>
 
 
@@ -43,14 +45,16 @@
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"
             />
 
-            <Button Content="{Binding Height}"></Button>
             <Button
                 Command="{x:Static w:Commands.SaveAsVariantCommand}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"
+            />
+            <Button
+                Command="{x:Static w:Commands.SaveOverExistingCommand}"
+                Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"
                 />
             <Button                 
-                Command="Paste"
-                CommandTarget="{Binding ElementName=EditBox}"
+                Command="{x:Static w:Commands.DeleteDiagnosisCommand}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"/>
             <Button                 
                 Content="Sort A-Z" Click="SortAZButton_Click"/>
@@ -64,7 +68,7 @@
                      TextBoxBase.TextChanged="SearchBox_TextChanged"
                      KeyDown="SearchBox_KeyDown"
                      IsEditable="True"
-                     IsSynchronizedWithCurrentItem="False"
+                     IsSynchronizedWithCurrentItem="True"
                      ItemsSource="{Binding Path=DiagnosisViewSource.Source}"
                      DisplayMemberPath="Name"
                      SelectedValuePath="Name"
@@ -108,6 +112,13 @@
                          Text="">
 
                 </TextBox>
+                <TextBlock Margin="0 9 0 8" Text="Current Diagnosis in View:"/>
+                <TextBox x:Name="CurrentDiagnosisTextBox" 
+                         Background="#FF76DDFF"
+                         Padding="2"
+                         Text="{Binding Path=DiagnosisViewSource.Source.CurrentItem, Mode=OneWay}">
+                </TextBox>
+
             </StackPanel>
         </StackPanel>
 

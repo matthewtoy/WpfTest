@@ -13,7 +13,6 @@ namespace WpfTest
             textBox.CaretIndex += text.Length;
         }
 
-
         public static string TextGet(System.Windows.Controls.TextBox textBox)
         {
             textBox.SelectAll();
@@ -25,7 +24,15 @@ namespace WpfTest
             textBox.Focus();
             textBox.SelectAll();
             textBox.SelectedText = text;
-            return;
+        }
+
+        public static void AppendText(string text, TextBox textBox)
+        {
+   
+            textBox.Focus();
+            textBox.CaretIndex = textBox.Text.Length;
+            textBox.AppendText(" ");
+            textBox.SelectedText = text;
         }
 
 
