@@ -5,9 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
-using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace WpfTest
 {
@@ -17,11 +15,6 @@ namespace WpfTest
     public partial class MainWindow : Window
     {
         private readonly string initialDiagnosisXML = @".\InitialDiagnoses.xml";
-
-        public Diagnosis SelectedDiagnosis { get; set; }
-        public CollectionViewSource DiagnosisViewSource { get; set; }
-        public ObservableCollection<Diagnosis> DiagnosisCollection { get; set; }
-        public Repository Repository { get; set; }
 
         public MainWindow()
 
@@ -40,6 +33,11 @@ namespace WpfTest
             GenerateButtons();
         }
 
+        public Diagnosis SelectedDiagnosis { get; set; }
+        public CollectionViewSource DiagnosisViewSource { get; set; }
+        public ObservableCollection<Diagnosis> DiagnosisCollection { get; set; }
+        public Repository Repository { get; set; }
+
 
         private void MainWindow_Closed(object sender, EventArgs e)
         {
@@ -48,20 +46,20 @@ namespace WpfTest
 
         private void GenerateButtons()
         {
-            ButtonGrid.Children.Clear();
-            var sortedList = DiagnosisCollection.ToList();
-            sortedList.Sort();
+            //ButtonGrid.Children.Clear();
+            //var sortedList = DiagnosisCollection.ToList();
+            //sortedList.Sort();
 
-            foreach (var d in sortedList)
-            {
-                var btn = new Button
-                {
-                    Content = d.Name,
-                    Tag = d
-                };
-                btn.Click += CommandBinding_PrintDiagnosisCommand;
-                ButtonGrid.Children.Add(btn);
-            }
+            //foreach (var d in sortedList)
+            //{
+            //    var btn = new Button
+            //    {
+            //        Content = d.Name,
+            //        Tag = d
+            //    };
+            //    btn.Click += CommandBinding_PrintDiagnosisCommand;
+            //    ButtonGrid.Children.Add(btn);
+            //}
         }
 
 
@@ -77,14 +75,17 @@ namespace WpfTest
 
         public void CommandBinding_PrintDiagnosisCommand(object sender, RoutedEventArgs e)
         {
-            var buttonTag = (sender as Button).Tag;
-            var diagnosis = buttonTag as Diagnosis;
+            //Halelujah! Original source!
+            var source = e.OriginalSource as Button;
+            if (!(source.Tag is Diagnosis diagnosis)) return;
+            NameTextBox.Text = source.Tag.ToString();
             TextBoxController.ReplaceTextBox(diagnosis.Text, PreviewBox);
             TextBoxController.TextAdd(diagnosis.Text, EditBox);
-            diagnosis.IncrementUseCount();
             NameTextBox.Text = diagnosis.Name;
-            var DiagnosisView = CollectionViewSource.GetDefaultView(DiagnosisCollection);
-            DiagnosisView.Refresh();
+            diagnosis.IncrementUseCount();
+            var diagnosisView = CollectionViewSource.GetDefaultView(DiagnosisCollection);
+            diagnosisView.MoveCurrentTo(diagnosis);
+            diagnosisView.Refresh();
         }
 
         public void CommandBinding_SaveReportAsDiagnosisCommand(object sender, RoutedEventArgs e)
@@ -168,8 +169,8 @@ namespace WpfTest
         private void SearchBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var item = sender as ComboBox;
-            if (item == null||e==null) return;
-            if (e.AddedItems == null||e.AddedItems.Count <1) return;
+            if (item == null || e == null) return;
+            if (e.AddedItems == null || e.AddedItems.Count < 1) return;
             var diagnosis = e.AddedItems[0] as Diagnosis;
             if (diagnosis == null) return;
             TextBoxController.ReplaceTextBox(diagnosis.Text, PreviewBox);
@@ -208,7 +209,6 @@ namespace WpfTest
             DiagnosisCollection.Add(new Diagnosis(name, text));
             Repository.SaveCollection(DiagnosisCollection);
             GenerateButtons();
-
         }
 
         private void CommandBinding_SaveOverExistingCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -231,7 +231,7 @@ namespace WpfTest
 
         private void CommandBinding_DeleteDiagnosisCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = true;                  
+            e.CanExecute = true;
         }
 
         private void CommandBinding_DeleteDiagnosis_Executed(object sender, ExecutedRoutedEventArgs e)

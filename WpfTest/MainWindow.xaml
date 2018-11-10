@@ -89,16 +89,28 @@
             <Label Margin="0 10 0 0" Content="Diagnoses:"/>
 
 
-            <!--<ItemsControl ItemsSource="{Binding MyData}">
-                <ItemsControl.ItemTemplate>
+ 
+
+                <ItemsControl ItemsSource="{Binding Path=DiagnosisViewSource.Source}">
+                    <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button Content="{Binding Content}" Command="{Binding Command}"/>
+                            <Button Name="DiagnosisButton" 
+                                    Content="{Binding Name}" 
+           
+                                    Tag ="{Binding}"
+                                    Command="{x:Static w:Commands.PrintDiagnosisCommand}" />
+                                    <!-- CommandParameter="{Binding ElementName=DiagnosisButton}"/> -->
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
-            </ItemsControl>-->
-            <UniformGrid Name="ButtonGrid">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="3" Rows="5">
 
-            </UniformGrid>
+                            </UniformGrid>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+
             <StackPanel>
                 <TextBlock Margin="0 9 0 8" Text="Codes"/>
                 <TextBox x:Name="GreenTextBox" 
@@ -123,7 +135,11 @@
         </StackPanel>
 
         <DockPanel Margin="4,5,8,5" Name="PreviewContainer" Grid.Column="1"  DockPanel.Dock="Top">
-            <TextBox DockPanel.Dock="Top" IsReadOnly="True" Background="#FFAFEABD" Padding="2" Text="Benign Uterus    Variation 7    Code 247676.34"/>
+            <TextBox DockPanel.Dock="Top" 
+                     IsReadOnly="True" 
+                     Background="#FFAFEABD" 
+                     Padding="2" 
+                     Text="Benign Uterus    Variation 7    Code 247676.34"/>
             <StatusBar DockPanel.Dock="Bottom" />
 
             <!--PreviewTextBox-->
@@ -150,7 +166,11 @@
             </TextBox>
         </DockPanel>
         <DockPanel Margin="0,5,14,5" Name="EditContainer" Grid.Column="2"  DockPanel.Dock="Top">
-            <TextBox DockPanel.Dock="Top" IsReadOnly="True" Background="#AAAACC" Padding="2" Text="---- Report ----"/>
+            <TextBox DockPanel.Dock="Top" 
+                     IsReadOnly="True" 
+                     Background="#AAAACC" 
+                     Padding="2" 
+                     Text="---- Report ----"/>
             <StatusBar DockPanel.Dock="Bottom" />
 
             <!--EditTextBox-->
