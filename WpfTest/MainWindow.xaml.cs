@@ -30,36 +30,22 @@ namespace WpfTest
 
             Closed += MainWindow_Closed;
 
-            GenerateButtons();
         }
 
         public Diagnosis SelectedDiagnosis { get; set; }
         public CollectionViewSource DiagnosisViewSource { get; set; }
-        public ObservableCollection<Diagnosis> DiagnosisCollection { get; set; }
+        public static ObservableCollection<Diagnosis> DiagnosisCollection { get; set; }
         public Repository Repository { get; set; }
+
+        private void OnWindowLoaded(object sender, RoutedEventArgs e)
+        {
+            FilterController.ClearFilter();
+        }
 
 
         private void MainWindow_Closed(object sender, EventArgs e)
         {
             Repository.SaveCollection(DiagnosisCollection);
-        }
-
-        private void GenerateButtons()
-        {
-            //ButtonGrid.Children.Clear();
-            //var sortedList = DiagnosisCollection.ToList();
-            //sortedList.Sort();
-
-            //foreach (var d in sortedList)
-            //{
-            //    var btn = new Button
-            //    {
-            //        Content = d.Name,
-            //        Tag = d
-            //    };
-            //    btn.Click += CommandBinding_PrintDiagnosisCommand;
-            //    ButtonGrid.Children.Add(btn);
-            //}
         }
 
 
@@ -73,12 +59,10 @@ namespace WpfTest
             //do nothing.
         }
 
-        public void CommandBinding_PrintDiagnosisCommand(object sender, RoutedEventArgs e)
+//todo: Refactor common code in report printing
+
+        public void PrintDiagnosis(Diagnosis diagnosis)
         {
-            //Halelujah! Original source!
-            var source = e.OriginalSource as Button;
-            if (!(source.Tag is Diagnosis diagnosis)) return;
-            NameTextBox.Text = source.Tag.ToString();
             TextBoxController.ReplaceTextBox(diagnosis.Text, PreviewBox);
             TextBoxController.TextAdd(diagnosis.Text, EditBox);
             NameTextBox.Text = diagnosis.Name;
@@ -86,6 +70,84 @@ namespace WpfTest
             var diagnosisView = CollectionViewSource.GetDefaultView(DiagnosisCollection);
             diagnosisView.MoveCurrentTo(diagnosis);
             diagnosisView.Refresh();
+            FilterController.ClearFilter();
+        }
+
+        public void CommandBinding_PrintDiagnosisCommand(object sender, RoutedEventArgs e)
+        {
+            //Hallelujah! Original source!
+            var source = e.OriginalSource as Button;
+            if (!(source.Tag is Diagnosis diagnosis)) return;
+            PrintDiagnosis(diagnosis);
+        }
+
+        private void cmbItem_PreviewMouseDown(object sender, EventArgs e)
+        {
+            //Sender is combobox-item: Diagnosis
+            var item = sender as ComboBoxItem;
+            if (item == null) return;
+            var diagnosis = (Diagnosis)item.Content;
+            PrintDiagnosis(diagnosis);
+        }
+
+        private void SearchBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            var name = SearchBox.Text;
+
+            if (e.Key != Key.Enter) return;
+
+            if (DiagnosisCollection.All(d => d.Name != name)) return;
+            {
+                var diagnosis = DiagnosisCollection.First(d => d.Name == name);
+                if (diagnosis == null) return;
+                PrintDiagnosis(diagnosis);
+            }
+        }
+
+        private void SearchBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (!(CollectionViewSource.GetDefaultView(DiagnosisCollection).CurrentItem is Diagnosis diagnosis)) return;
+            var diagnosisGroup = diagnosis.DiagnosisGroup;
+
+            if (e.Key == Key.Right)
+            {
+                FilterController.SetDiagnosisGroupFilter(diagnosisGroup);
+                e.Handled = true;
+            }
+
+            if (e.Key == Key.Left)
+            {
+                FilterController.ClearFilter();
+                e.Handled = true;
+            }
+
+        }
+
+        private void SearchBox_TextInput(object sender, TextCompositionEventArgs e)
+        {
+//           NameTextBox.Text = e.Text;
+//            NameTextBox.Text = SearchBox.Text;
+
+        }
+
+        private void SearchBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item = sender as ComboBox;
+            if (item == null || e == null) return;
+            if (e.AddedItems == null || e.AddedItems.Count < 1) return;
+            var diagnosis = e.AddedItems[0] as Diagnosis;
+            if (diagnosis == null) return;
+            TextBoxController.ReplaceTextBox(diagnosis.Text, PreviewBox);
+            SearchBox.Focus();
+        }
+
+
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var text = SearchBox.Text;
+
+            FilterController.SetSearchAsTypeFilter(text);
+            e.Handled = false;
         }
 
         public void CommandBinding_SaveReportAsDiagnosisCommand(object sender, RoutedEventArgs e)
@@ -109,72 +171,29 @@ namespace WpfTest
             NameTextBox.SelectAll();
             DiagnosisCollection.Add(new Diagnosis(name, text));
             Repository.SaveCollection(DiagnosisCollection);
-            GenerateButtons();
         }
 
-
-        private void cmbItem_PreviewMouseDown(object sender, EventArgs e)
-        {
-            //Sender is comboboxitem: Diagnosis
-            var item = sender as ComboBoxItem;
-            if (item == null) return;
-            var diagnosis = (Diagnosis) item.Content;
-            TextBoxController.ReplaceTextBox(diagnosis.Text, PreviewBox);
-            TextBoxController.TextAdd(diagnosis.Text, EditBox);
-            NameTextBox.Text = diagnosis.Name;
-            diagnosis.IncrementUseCount();
-            var DiagnosisView = CollectionViewSource.GetDefaultView(DiagnosisCollection);
-            DiagnosisView.Refresh();
-        }
-
-
-        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            // Do nothing
-        }
-
-        private void SearchBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key != Key.Enter) return;
-            var name = SearchBox.Text;
-
-            if (DiagnosisCollection.All(d => d.Name != name)) return;
-            {
-                var diagnosis = DiagnosisCollection.First(d => d.Name == name);
-                if (diagnosis == null) return;
-                TextBoxController.ReplaceTextBox(diagnosis.Text, PreviewBox);
-                TextBoxController.TextAdd(diagnosis.Text, EditBox);
-                NameTextBox.Text = diagnosis.Name;
-                diagnosis.IncrementUseCount();
-                var DiagnosisView = CollectionViewSource.GetDefaultView(DiagnosisCollection);
-                DiagnosisView.Refresh();
-            }
-        }
 
         private void SortAZButton_Click(object sender, RoutedEventArgs e)
         {
-            var DiagnosisView = CollectionViewSource.GetDefaultView(DiagnosisCollection);
-            DiagnosisView.SortDescriptions.Clear();
-            DiagnosisView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
+            FilterController.SortByAlphabet();
         }
+
 
         private void SortByUseButton_Click(object sender, RoutedEventArgs e)
         {
-            var DiagnosisView = CollectionViewSource.GetDefaultView(DiagnosisCollection);
-            DiagnosisView.SortDescriptions.Clear();
-            DiagnosisView.SortDescriptions.Add(new SortDescription("UseCount", ListSortDirection.Descending));
+            FilterController.SortByUse();
         }
 
 
-        private void SearchBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void FilterButton_Click(object sender, RoutedEventArgs e)
         {
-            var item = sender as ComboBox;
-            if (item == null || e == null) return;
-            if (e.AddedItems == null || e.AddedItems.Count < 1) return;
-            var diagnosis = e.AddedItems[0] as Diagnosis;
-            if (diagnosis == null) return;
-            TextBoxController.ReplaceTextBox(diagnosis.Text, PreviewBox);
-            SearchBox.Focus();
+            FilterController.SetDiagnosisGroupFilter(NameTextBox.Text);
+        }
+
+        private void ClearFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            FilterController.ClearFilter();
         }
 
         private void CommandBinding_SaveReportAsDiagnosisCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -189,6 +208,8 @@ namespace WpfTest
 
         private void CommandBinding_SaveAsVariant_Executed(object sender, ExecutedRoutedEventArgs e)
         {
+            if (!(CollectionViewSource.GetDefaultView(DiagnosisCollection).CurrentItem is Diagnosis diagnosis)) return;
+            var diagnosisGroup = diagnosis.DiagnosisGroup;
             var name = TextBoxController.TextGet(NameTextBox);
             if (string.IsNullOrEmpty(name) ||
                 DiagnosisCollection.Any(d => d.Name == TextBoxController.TextGet(NameTextBox)))
@@ -206,9 +227,8 @@ namespace WpfTest
 
             NameTextBox.Focus();
             NameTextBox.SelectAll();
-            DiagnosisCollection.Add(new Diagnosis(name, text));
+            DiagnosisCollection.Add(new Diagnosis(name, text, diagnosisGroup));
             Repository.SaveCollection(DiagnosisCollection);
-            GenerateButtons();
         }
 
         private void CommandBinding_SaveOverExistingCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -239,7 +259,6 @@ namespace WpfTest
             if (!(CollectionViewSource.GetDefaultView(DiagnosisCollection).CurrentItem is Diagnosis diagnosis)) return;
             DiagnosisCollection.Remove(diagnosis);
             NameTextBox.Text = "Deleted: " + diagnosis.Name;
-            GenerateButtons();
         }
     }
 }

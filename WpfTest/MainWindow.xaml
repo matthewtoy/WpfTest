@@ -8,8 +8,9 @@
         xmlns:w="clr-namespace:WpfTest"
         
         mc:Ignorable="d"
-        Title="Reporter" Height="606" Width="1036"
-        Background="#444444" d:DataContext="{d:DesignData }">
+        Title="Reporter" Height="661.5" Width="1036"
+        Background="#444444" d:DataContext="{d:DesignData }"
+        Loaded="OnWindowLoaded">
     <Window.Resources>
         <RoutedUICommand x:Key="ClearNewDiagnosesCommand" Text="Clear User Diagnoses" />
         <RoutedUICommand x:Key="AddDiagnosisCommand" Text="Add Diagnosis" />
@@ -38,6 +39,7 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Margin="5" Orientation="Vertical">
+            <!--#region Top Buttons-->
             <Button
                 x:Name="Arlo" 
                 Command="{x:Static w:Commands.SaveReportAsDiagnosisCommand}"
@@ -60,6 +62,12 @@
                 Content="Sort A-Z" Click="SortAZButton_Click"/>
             <Button                 
                 Content="Sort by Use" Click="SortByUseButton_Click"/>
+            <Button                 
+                Content="Filter to Diagnosis Box" Click="FilterButton_Click"/>
+            <Button                 
+                Content="Clear Filter" Click="ClearFilterButton_Click"/>
+            <!--#endregion-->
+            <!--#region SearchBox-->
             <Label Target="{Binding ElementName=SearchBox}" Margin="0 8 0 0">_Search</Label>
   
             <!--It's using the toString of Diagnosis objects for name display:'-->
@@ -67,6 +75,8 @@
                     SelectionChanged="SearchBox_OnSelectionChanged"
                      TextBoxBase.TextChanged="SearchBox_TextChanged"
                      KeyDown="SearchBox_KeyDown"
+                     PreviewKeyDown="SearchBox_PreviewKeyDown"
+                     PreviewTextInput="SearchBox_TextInput"
                      IsEditable="True"
                      IsSynchronizedWithCurrentItem="True"
                      ItemsSource="{Binding Path=DiagnosisViewSource.Source}"
@@ -85,6 +95,7 @@
                 </Style>
                 </ComboBox.ItemContainerStyle>
             </ComboBox>
+            <!--#endregion Searchbox-->
 
             <Label Margin="0 10 0 0" Content="Diagnoses:"/>
 

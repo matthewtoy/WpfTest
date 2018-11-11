@@ -25,12 +25,18 @@ namespace WpfTest
             this.Text = text;
         }
 
+        public Diagnosis(string name, string text, string diagnosisGroup)
+            :this(name, text)
+        {
+            this.DiagnosisGroup = diagnosisGroup;
+        }
+
         public override string ToString() => "Diagnosis." + Name;
 
  
         public void IncrementUseCount()
         {
-            UseCount += 1;
+            ++UseCount;
             OnPropertyChanged();
         }
 
