@@ -23,11 +23,20 @@
         </Style>
     </Window.Resources>
     <Window.CommandBindings>
-        <CommandBinding Command="{x:Static w:Commands.PrintDiagnosisCommand}" Executed="CommandBinding_PrintDiagnosisCommand" />
-        <CommandBinding Command="{x:Static w:Commands.SaveReportAsDiagnosisCommand}" CanExecute="CommandBinding_SaveReportAsDiagnosisCommand_CanExecute"  Executed="CommandBinding_SaveReportAsDiagnosisCommand" />
-        <CommandBinding Command="{x:Static w:Commands.SaveAsVariantCommand}" CanExecute="CommandBinding_SaveAsVariantCommand_CanExecute" Executed="CommandBinding_SaveAsVariant_Executed"/>
-        <CommandBinding Command="{x:Static w:Commands.SaveOverExistingCommand}" CanExecute="CommandBinding_SaveOverExistingCommand_CanExecute" Executed="CommandBinding_SaveOverExisting_Executed"/>
-        <CommandBinding Command="{x:Static w:Commands.DeleteDiagnosisCommand}" CanExecute="CommandBinding_DeleteDiagnosisCommand_CanExecute" Executed="CommandBinding_DeleteDiagnosis_Executed"/>
+        <CommandBinding Command="{x:Static w:Commands.PrintDiagnosisCommand}"
+                        Executed="CommandBinding_PrintDiagnosisCommand" />
+        <CommandBinding Command="{x:Static w:Commands.SaveAsNewDiagnosisCommand}"
+                        CanExecute="CommandBinding_SaveReportAsDiagnosisCommand_CanExecute"
+                        Executed="CommandBinding_SaveAsNewDiagnosisCommand" />
+        <CommandBinding Command="{x:Static w:Commands.SaveAsVariantCommand}"
+                        CanExecute="CommandBinding_SaveAsVariantCommand_CanExecute"
+                        Executed="CommandBinding_SaveAsVariant_Executed" />
+        <CommandBinding Command="{x:Static w:Commands.SaveOverExistingCommand}"
+                        CanExecute="CommandBinding_SaveOverExistingCommand_CanExecute"
+                        Executed="CommandBinding_SaveOverExisting_Executed" />
+        <CommandBinding Command="{x:Static w:Commands.DeleteDiagnosisCommand}"
+                        CanExecute="CommandBinding_DeleteDiagnosisCommand_CanExecute"
+                        Executed="CommandBinding_DeleteDiagnosis_Executed" />
     </Window.CommandBindings>
 
 
@@ -42,7 +51,7 @@
             <!--#region Top Buttons-->
             <Button
                 x:Name="Arlo" 
-                Command="{x:Static w:Commands.SaveReportAsDiagnosisCommand}"
+                Command="{x:Static w:Commands.SaveAsNewDiagnosisCommand}"
                 CommandTarget="{Binding ElementName=EditBox}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"
             />
@@ -63,7 +72,7 @@
             <Button                 
                 Content="Sort by Use" Click="SortByUseButton_Click"/>
             <Button                 
-                Content="Filter to Diagnosis Box" Click="FilterButton_Click"/>
+                Content="Filter to Diagnosis Box" Click="FilterToDiagnosisBoxButton_Click"/>
             <Button                 
                 Content="Clear Filter" Click="ClearFilterButton_Click"/>
             <!--#endregion-->
