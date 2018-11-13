@@ -2,7 +2,7 @@
 
 namespace WpfTest
 {
-    static class TextBoxController
+    internal static class TextBoxController
     {
         public static void TextAdd(string text, TextBox textBox)
         {
@@ -13,7 +13,7 @@ namespace WpfTest
             textBox.CaretIndex += text.Length;
         }
 
-        public static string TextGet(System.Windows.Controls.TextBox textBox)
+        public static string TextGet(TextBox textBox)
         {
             textBox.SelectAll();
             return textBox.SelectedText;
@@ -28,14 +28,10 @@ namespace WpfTest
 
         public static void AppendText(string text, TextBox textBox)
         {
-   
             textBox.Focus();
             textBox.CaretIndex = textBox.Text.Length;
             textBox.AppendText(" ");
             textBox.SelectedText = text;
         }
-
-
-
     }
 }

@@ -10,16 +10,6 @@ namespace WpfTest
 {
     public partial class MainWindow : Window
     {
-        #region Fields and Props
-
-        private readonly string initialDiagnosisXML = @".\InitialDiagnoses.xml";
-        public Diagnosis SelectedDiagnosis { get; set; }
-        public CollectionViewSource DiagnosisViewSource { get; set; }
-        public static ObservableCollection<Diagnosis> DiagnosisCollection { get; set; }
-        public Repository Repository { get; set; }
-
-        #endregion
-
         #region Constructor
 
         public MainWindow()
@@ -36,6 +26,16 @@ namespace WpfTest
         }
 
         #endregion Constructor
+
+        #region Fields and Props
+
+        private readonly string initialDiagnosisXML = @".\InitialDiagnoses.xml";
+        public Diagnosis SelectedDiagnosis { get; set; }
+        public CollectionViewSource DiagnosisViewSource { get; set; }
+        public static ObservableCollection<Diagnosis> DiagnosisCollection { get; set; }
+        public Repository Repository { get; set; }
+
+        #endregion
 
         #region WindowMethods
 
@@ -85,18 +85,16 @@ namespace WpfTest
             FilterController.ClearFilter();
         }
 
-
         #endregion Helper Methods
 
         #region SearchBox Input Methods
-
 
         private void cmbItem_PreviewMouseDown(object sender, EventArgs e)
         {
             //Sender is combobox-item: Diagnosis
             var item = sender as ComboBoxItem;
             if (item == null) return;
-            var diagnosis = (Diagnosis)item.Content;
+            var diagnosis = (Diagnosis) item.Content;
             PrintDiagnosis(diagnosis);
         }
 
@@ -131,14 +129,12 @@ namespace WpfTest
                 FilterController.ClearFilter();
                 e.Handled = true;
             }
-
         }
 
         private void SearchBox_TextInput(object sender, TextCompositionEventArgs e)
         {
 //           NameTextBox.Text = e.Text;
 //            NameTextBox.Text = SearchBox.Text;
-
         }
 
         private void SearchBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -159,6 +155,7 @@ namespace WpfTest
             FilterController.SetSearchAsTypeFilter(text);
             e.Handled = false;
         }
+
         #endregion SearchBox Input Methods
 
         #region Command Methods
@@ -168,9 +165,7 @@ namespace WpfTest
             //Hallelujah! Original source!
             if (!(e.OriginalSource is Button button &&
                   button.Tag is Diagnosis diagnosis))
-            {
                 diagnosis = GetCurrent();
-            }
             if (diagnosis == null) return;
             PrintDiagnosis(diagnosis);
         }
@@ -253,14 +248,17 @@ namespace WpfTest
         {
             e.CanExecute = true;
         }
+
         private void CommandBinding_SaveAsVariantCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
         }
+
         private void CommandBinding_SaveOverExistingCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
         }
+
         private void CommandBinding_DeleteDiagnosisCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;

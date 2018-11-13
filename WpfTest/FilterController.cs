@@ -5,6 +5,11 @@ namespace WpfTest
 {
     public static class FilterController
     {
+        public static string FilterString = "";
+
+        public static ICollectionView diagnosisView =
+            CollectionViewSource.GetDefaultView(MainWindow.DiagnosisCollection);
+
         public static void SortByUse()
         {
             var DiagnosisView = CollectionViewSource.GetDefaultView(MainWindow.DiagnosisCollection);
@@ -15,14 +20,12 @@ namespace WpfTest
         public static void SortByAlphabet()
         {
             // Custom sorter is faster than reflection-based inbuilt sort.  Need to cast to ListCollectionView as implements customsort and indexing. Probably best for most operations here.
-            var diagnosisView = (ListCollectionView)CollectionViewSource.GetDefaultView(MainWindow.DiagnosisCollection);
+            var diagnosisView =
+                (ListCollectionView) CollectionViewSource.GetDefaultView(MainWindow.DiagnosisCollection);
             diagnosisView.SortDescriptions.Clear();
             diagnosisView.CustomSort = new AlphabeticSorter();
             // diagnosisView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
         }
-
-        public static string FilterString = "";
-        public static ICollectionView diagnosisView = CollectionViewSource.GetDefaultView(MainWindow.DiagnosisCollection);
 
         public static void SetDiagnosisGroupFilter(string filterString)
         {

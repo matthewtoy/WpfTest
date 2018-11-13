@@ -6,7 +6,7 @@
         xmlns:sys="clr-namespace:System;assembly=system"
         xmlns:local="clr-namespace:WpfTest"
         xmlns:w="clr-namespace:WpfTest"
-        
+
         mc:Ignorable="d"
         Title="Reporter" Height="661.5" Width="1036"
         Background="#444444" d:DataContext="{d:DesignData }"
@@ -16,10 +16,10 @@
         <RoutedUICommand x:Key="AddDiagnosisCommand" Text="Add Diagnosis" />
         <RoutedUICommand x:Key="SaveReportAsDiagnosisCommand" Text="Save as new Diagnosis" />
 
-        
+
         <Style TargetType="Button">
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="Background" Value="CornflowerBlue"/>
+            <Setter Property="Margin" Value="2" />
+            <Setter Property="Background" Value="CornflowerBlue" />
         </Style>
     </Window.Resources>
     <Window.CommandBindings>
@@ -42,151 +42,142 @@
 
     <Grid Margin="5,5,-8,10">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="1.2*"/>
-            <ColumnDefinition Width="1.2*"/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="1.2*" />
+            <ColumnDefinition Width="1.2*" />
         </Grid.ColumnDefinitions>
 
         <StackPanel Margin="5" Orientation="Vertical">
             <!--#region Top Buttons-->
             <Button
-                x:Name="Arlo" 
+                x:Name="Arlo"
                 Command="{x:Static w:Commands.SaveAsNewDiagnosisCommand}"
                 CommandTarget="{Binding ElementName=EditBox}"
-                Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"
-            />
+                Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
 
             <Button
                 Command="{x:Static w:Commands.SaveAsVariantCommand}"
-                Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"
-            />
+                Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
             <Button
                 Command="{x:Static w:Commands.SaveOverExistingCommand}"
-                Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"
-                />
-            <Button                 
+                Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
+            <Button
                 Command="{x:Static w:Commands.DeleteDiagnosisCommand}"
-                Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"/>
-            <Button                 
-                Content="Sort A-Z" Click="SortAZButton_Click"/>
-            <Button                 
-                Content="Sort by Use" Click="SortByUseButton_Click"/>
-            <Button                 
-                Content="Filter to Diagnosis Box" Click="FilterToDiagnosisBoxButton_Click"/>
-            <Button                 
-                Content="Clear Filter" Click="ClearFilterButton_Click"/>
+                Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
+            <Button
+                Content="Sort A-Z" Click="SortAZButton_Click" />
+            <Button
+                Content="Sort by Use" Click="SortByUseButton_Click" />
+            <Button
+                Content="Filter to Diagnosis Box" Click="FilterToDiagnosisBoxButton_Click" />
+            <Button
+                Content="Clear Filter" Click="ClearFilterButton_Click" />
             <!--#endregion-->
             <!--#region SearchBox-->
             <Label Target="{Binding ElementName=SearchBox}" Margin="0 8 0 0">_Search</Label>
-  
+
             <!--It's using the toString of Diagnosis objects for name display:'-->
-            <ComboBox x:Name="SearchBox" 
-                    SelectionChanged="SearchBox_OnSelectionChanged"
-                     TextBoxBase.TextChanged="SearchBox_TextChanged"
-                     KeyDown="SearchBox_KeyDown"
-                     PreviewKeyDown="SearchBox_PreviewKeyDown"
-                     PreviewTextInput="SearchBox_TextInput"
-                     IsEditable="True"
-                     IsSynchronizedWithCurrentItem="True"
-                     ItemsSource="{Binding Path=DiagnosisViewSource.Source}"
-                     DisplayMemberPath="Name"
-                     SelectedValuePath="Name"
-                     Background="#FFFBFFFB"
-                     Margin="0 5 0 5"
-                     Padding="2"
-                     Text="Search Diagnoses" Foreground="#FF050EC3" Style="{DynamicResource SearchBoxStyle}">
+            <ComboBox x:Name="SearchBox"
+                      SelectionChanged="SearchBox_OnSelectionChanged"
+                      TextBoxBase.TextChanged="SearchBox_TextChanged"
+                      KeyDown="SearchBox_KeyDown"
+                      PreviewKeyDown="SearchBox_PreviewKeyDown"
+                      PreviewTextInput="SearchBox_TextInput"
+                      IsEditable="True"
+                      IsSynchronizedWithCurrentItem="True"
+                      ItemsSource="{Binding Path=DiagnosisViewSource.Source}"
+                      DisplayMemberPath="Name"
+                      SelectedValuePath="Name"
+                      Background="#FFFBFFFB"
+                      Margin="0 5 0 5"
+                      Padding="2"
+                      Text="Search Diagnoses" Foreground="#FF050EC3" Style="{DynamicResource SearchBoxStyle}">
                 <ComboBox.ItemContainerStyle>
-                <Style TargetType="ComboBoxItem">
-                    <Setter Property="Background" Value="Yellow"/>
-                    <Setter Property="BorderBrush" Value="Yellow"/>
-                    <EventSetter Event="ComboBoxItem.PreviewMouseDown"
-                    Handler="cmbItem_PreviewMouseDown"/>
-                </Style>
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="Background" Value="Yellow" />
+                        <Setter Property="BorderBrush" Value="Yellow" />
+                        <EventSetter Event="ComboBoxItem.PreviewMouseDown"
+                                     Handler="cmbItem_PreviewMouseDown" />
+                    </Style>
                 </ComboBox.ItemContainerStyle>
             </ComboBox>
             <!--#endregion Searchbox-->
 
-            <Label Margin="0 10 0 0" Content="Diagnoses:"/>
-                <ItemsControl ItemsSource="{Binding Path=DiagnosisViewSource.Source}">
-                    <ItemsControl.ItemTemplate>
+            <Label Margin="0 10 0 0" Content="Diagnoses:" />
+            <ItemsControl ItemsSource="{Binding Path=DiagnosisViewSource.Source}">
+                <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                            <Button Name="DiagnosisButton" 
-                                    Content="{Binding Name}" 
-           
-                                    Tag ="{Binding}"
-                                    Command="{x:Static w:Commands.PrintDiagnosisCommand}" />
-                                    <!-- CommandParameter="{Binding ElementName=DiagnosisButton}"/> -->
+                        <Button Name="DiagnosisButton"
+                                Content="{Binding Name}"
+
+                                Tag="{Binding}"
+                                Command="{x:Static w:Commands.PrintDiagnosisCommand}" />
+                        <!-- CommandParameter="{Binding ElementName=DiagnosisButton}"/> -->
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Columns="3" Rows="5">
-
-                            </UniformGrid>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    </ItemsControl>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="3" Rows="5" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
         </StackPanel>
         <StackPanel VerticalAlignment="Bottom">
-                <TextBlock Margin="0 9 0 8" Text="Codes"/>
-                <TextBox x:Name="GreenTextBox" 
-                         Background="#AACCAA"
-                         Padding="2"
-                         Text="Benign Uterus    Variation 7    Code 247676.34"/>
-                <TextBlock Margin="0 9 0 8" Text="Diagnosis:"/>
-                <TextBox x:Name="NameTextBox" 
-                         Background="#AADDEE"
-                         Padding="2"
-                         Text="">
+            <TextBlock Margin="0 9 0 8" Text="Codes" />
+            <TextBox x:Name="GreenTextBox"
+                     Background="#AACCAA"
+                     Padding="2"
+                     Text="Benign Uterus    Variation 7    Code 247676.34" />
+            <TextBlock Margin="0 9 0 8" Text="Diagnosis:" />
+            <TextBox x:Name="NameTextBox"
+                     Background="#AADDEE"
+                     Padding="2"
+                     Text="" />
+            <TextBlock Margin="0 9 0 8" Text="Current Diagnosis in View:" />
+            <TextBox x:Name="CurrentDiagnosisTextBox"
+                     Background="#FF76DDFF"
+                     Padding="2"
+                     Text="{Binding Path=DiagnosisViewSource.Source.CurrentItem, Mode=OneWay}" />
+        </StackPanel>
 
-                </TextBox>
-                <TextBlock Margin="0 9 0 8" Text="Current Diagnosis in View:"/>
-                <TextBox x:Name="CurrentDiagnosisTextBox" 
-                         Background="#FF76DDFF"
-                         Padding="2"
-                         Text="{Binding Path=DiagnosisViewSource.Source.CurrentItem, Mode=OneWay}">
-                </TextBox>
-</StackPanel>
 
-  
-
-        <DockPanel Margin="4,5,8,5" Name="PreviewContainer" Grid.Column="1"  DockPanel.Dock="Top">
-            <TextBox DockPanel.Dock="Top" 
-                     IsReadOnly="True" 
-                     Background="#FFAFEABD" 
-                     Padding="2" 
-                     Text="Benign Uterus    Variation 7    Code 247676.34"/>
+        <DockPanel Margin="4,5,8,5" Name="PreviewContainer" Grid.Column="1" DockPanel.Dock="Top">
+            <TextBox DockPanel.Dock="Top"
+                     IsReadOnly="True"
+                     Background="#FFAFEABD"
+                     Padding="2"
+                     Text="Benign Uterus    Variation 7    Code 247676.34" />
             <StatusBar DockPanel.Dock="Bottom" />
 
             <!--PreviewTextBox-->
             <TextBox
-                    Grid.Row="1"
-                     HorizontalAlignment="Stretch"
-                     Width="{Binding ElementName=Container,Path=ActualWidth}"
-                     VerticalScrollBarVisibility="Auto"
-                     Name="PreviewBox"
-                     Margin ="0,0,0,0" 
-                     Padding="5" 
-                     TextChanged="PreviewBox_OnTextChangedBox_TextChanged" 
-                     Block.LineHeight="8" 
-                     TextWrapping="Wrap"
-                     AcceptsReturn="True"
-                     SpellCheck.IsEnabled="True" 
-                     ScrollViewer.CanContentScroll="True" 
-                     AcceptsTab="False" 
-                     Background="#FF302D2D" 
-                     Foreground="#FFA8A6A6" FontSize="16">
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                Width="{Binding ElementName=Container,Path=ActualWidth}"
+                VerticalScrollBarVisibility="Auto"
+                Name="PreviewBox"
+                Margin="0,0,0,0"
+                Padding="5"
+                TextChanged="PreviewBox_OnTextChangedBox_TextChanged"
+                Block.LineHeight="8"
+                TextWrapping="Wrap"
+                AcceptsReturn="True"
+                SpellCheck.IsEnabled="True"
+                ScrollViewer.CanContentScroll="True"
+                AcceptsTab="False"
+                Background="#FF302D2D"
+                Foreground="#FFA8A6A6" FontSize="16">
                 <SpellCheck.CustomDictionaries>
                     <sys:Uri>pack://application:,,,/CustomSpellCheckDictionary.lex</sys:Uri>
                 </SpellCheck.CustomDictionaries>
             </TextBox>
         </DockPanel>
-        <DockPanel Margin="0,5,14,5" Name="EditContainer" Grid.Column="2"  DockPanel.Dock="Top">
-            <TextBox DockPanel.Dock="Top" 
-                     IsReadOnly="True" 
-                     Background="#AAAACC" 
-                     Padding="2" 
-                     Text="---- Report ----"/>
+        <DockPanel Margin="0,5,14,5" Name="EditContainer" Grid.Column="2" DockPanel.Dock="Top">
+            <TextBox DockPanel.Dock="Top"
+                     IsReadOnly="True"
+                     Background="#AAAACC"
+                     Padding="2"
+                     Text="---- Report ----" />
             <StatusBar DockPanel.Dock="Bottom" />
 
             <!--EditTextBox-->
@@ -196,16 +187,16 @@
                 Width="{Binding ElementName=Container,Path=ActualWidth}"
                 VerticalScrollBarVisibility="Auto"
                 Name="EditBox"
-                Margin ="0,0,0,0" 
-                Padding="5" 
-                TextChanged="EditBox_TextChanged" 
-                Block.LineHeight="8" 
+                Margin="0,0,0,0"
+                Padding="5"
+                TextChanged="EditBox_TextChanged"
+                Block.LineHeight="8"
                 TextWrapping="Wrap"
                 AcceptsReturn="True"
-                SpellCheck.IsEnabled="True" 
-                ScrollViewer.CanContentScroll="True" 
-                AcceptsTab="False" 
-                Background="#FF1F1F1F" 
+                SpellCheck.IsEnabled="True"
+                ScrollViewer.CanContentScroll="True"
+                AcceptsTab="False"
+                Background="#FF1F1F1F"
                 Foreground="#EEEEEE" FontSize="16">
                 <SpellCheck.CustomDictionaries>
                     <sys:Uri>pack://application:,,,/CustomSpellCheckDictionary.lex</sys:Uri>
