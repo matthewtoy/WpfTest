@@ -107,10 +107,6 @@
             <!--#endregion Searchbox-->
 
             <Label Margin="0 10 0 0" Content="Diagnoses:"/>
-
-
- 
-
                 <ItemsControl ItemsSource="{Binding Path=DiagnosisViewSource.Source}">
                     <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -130,8 +126,8 @@
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     </ItemsControl>
-
-            <StackPanel>
+        </StackPanel>
+        <StackPanel VerticalAlignment="Bottom">
                 <TextBlock Margin="0 9 0 8" Text="Codes"/>
                 <TextBox x:Name="GreenTextBox" 
                          Background="#AACCAA"
@@ -150,9 +146,9 @@
                          Padding="2"
                          Text="{Binding Path=DiagnosisViewSource.Source.CurrentItem, Mode=OneWay}">
                 </TextBox>
+</StackPanel>
 
-            </StackPanel>
-        </StackPanel>
+  
 
         <DockPanel Margin="4,5,8,5" Name="PreviewContainer" Grid.Column="1"  DockPanel.Dock="Top">
             <TextBox DockPanel.Dock="Top" 
