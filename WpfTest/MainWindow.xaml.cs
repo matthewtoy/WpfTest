@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
+using FeserWard.Controls;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace WpfTest
 {
@@ -23,6 +27,7 @@ namespace WpfTest
             DiagnosisViewSource.Source = DiagnosisCollection;
             SelectedDiagnosis = DiagnosisCollection.First();
             Closed += MainWindow_Closed;
+            SearchAutoCompleteProvider = new SearchAutoCompleteProvider();
         }
 
         #endregion Constructor
@@ -34,6 +39,7 @@ namespace WpfTest
         public CollectionViewSource DiagnosisViewSource { get; set; }
         public static ObservableCollection<Diagnosis> DiagnosisCollection { get; set; }
         public Repository Repository { get; set; }
+        public SearchAutoCompleteProvider SearchAutoCompleteProvider { get; set; }
 
         #endregion
 
@@ -289,5 +295,31 @@ namespace WpfTest
         }
 
         #endregion
+    }
+
+    public class SearchAutoCompleteProvider : IIntelliboxResultsProvider
+    {
+
+        IEnumerable IIntelliboxResultsProvider.DoSearch(string searchTerm, int maxResults, object extraInfo)
+        {
+            var coll = new ObservableCollection<Diagnosis>();
+            foreach (var d in MainWindow.DiagnosisCollection)
+            {
+                if (d.Name.ToLower().Contains(searchTerm.ToLower()))
+                {
+                    coll.Add(d);
+                }
+
+                if (coll.Count == 0)
+                {
+                    if (d.Text.ToLower().Contains(searchTerm.ToLower()))
+                    {
+                        coll.Add(d);
+                    }
+                }
+            }
+
+            return coll;
+        }
     }
 }
