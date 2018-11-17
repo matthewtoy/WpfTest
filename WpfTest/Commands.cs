@@ -60,5 +60,16 @@ namespace WpfTest
                 new KeyGesture(Key.Delete, ModifierKeys.Control)
             }
         );
+
+        public static RoutedUICommand SearchBoxFocusCommand = new RoutedUICommand
+        (
+            "Focus the Searchbox",
+            "SearchBoxFocusCommand",
+            typeof(Commands),
+            new InputGestureCollection
+            {
+                new KeyGesture(Key.L, ModifierKeys.Control)
+            }
+        );
     }
 }

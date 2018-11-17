@@ -38,6 +38,14 @@
         <CommandBinding Command="{x:Static w:Commands.DeleteDiagnosisCommand}"
                         CanExecute="CommandBinding_DeleteDiagnosisCommand_CanExecute"
                         Executed="CommandBinding_DeleteDiagnosis_Executed" />
+        <CommandBinding Command="{x:Static w:Commands.SearchBoxFocusCommand}"
+                        CanExecute="CommandBinding_SearchBoxFocusCommand_CanExecute"
+                        Executed="CommandBinding_SearchBoxFocusCommand_Executed" />
+
+
+
+
+        
     </Window.CommandBindings>
 
 
@@ -81,11 +89,13 @@
                              Margin="8"
                              SelectAllOnFocus="True"
                              ExplicitlyIncludeColumns="True"
+                             
                              DisplayedValueBinding="{Binding Name}"
                              SelectedValueBinding="{Binding Name}"
                              DataProvider="{Binding Path=SearchAutoCompleteProvider}"
                              Height="26"
                              VerticalAlignment="Top">
+         
             </auto:Intellibox>
 
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -7,7 +6,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using FeserWard.Controls;
 using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace WpfTest
@@ -28,6 +26,7 @@ namespace WpfTest
             SelectedDiagnosis = DiagnosisCollection.First();
             Closed += MainWindow_Closed;
             SearchAutoCompleteProvider = new SearchAutoCompleteProvider();
+            Intellibox.Focus();
         }
 
         #endregion Constructor
@@ -246,6 +245,15 @@ namespace WpfTest
             NameTextBox.Text = "Deleted: " + diagnosis.Name;
         }
 
+
+
+        private void CommandBinding_SearchBoxFocusCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Intellibox.Focus();
+        }
+
+
+
         #endregion Command Methods
 
         #region Command CanExecute Method Stubs
@@ -270,6 +278,10 @@ namespace WpfTest
             e.CanExecute = true;
         }
 
+        private void CommandBinding_SearchBoxFocusCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
         #endregion
 
         #region Top Button Event Handlers
@@ -294,32 +306,9 @@ namespace WpfTest
             FilterController.ClearFilter();
         }
 
+
         #endregion
-    }
 
-    public class SearchAutoCompleteProvider : IIntelliboxResultsProvider
-    {
 
-        IEnumerable IIntelliboxResultsProvider.DoSearch(string searchTerm, int maxResults, object extraInfo)
-        {
-            var coll = new ObservableCollection<Diagnosis>();
-            foreach (var d in MainWindow.DiagnosisCollection)
-            {
-                if (d.Name.ToLower().Contains(searchTerm.ToLower()))
-                {
-                    coll.Add(d);
-                }
-
-                if (coll.Count == 0)
-                {
-                    if (d.Text.ToLower().Contains(searchTerm.ToLower()))
-                    {
-                        coll.Add(d);
-                    }
-                }
-            }
-
-            return coll;
-        }
     }
 }
