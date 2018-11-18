@@ -7,6 +7,9 @@
         xmlns:local="clr-namespace:WpfTest"
         xmlns:w="clr-namespace:WpfTest"
         xmlns:auto="clr-namespace:FeserWard.Controls;assembly=Intellibox"
+        xmlns:wpfauto="clr-namespace:WPFAutoCompleteBox.Controls;assembly=WPFAutoCompleteBox"
+        xmlns:AC="clr-namespace:WPFAutoCompleteBox.Controls;assembly=WPFAutoCompleteBox"
+        xmlns:dotNetKitControls="clr-namespace:DotNetKit.Windows.Controls;assembly=DotNetKit.Wpf.AutoCompleteComboBox"
 
         mc:Ignorable="d"
         Title="Reporter" Height="661.5" Width="1036"
@@ -18,9 +21,18 @@
         <RoutedUICommand x:Key="SaveReportAsDiagnosisCommand" Text="Save as new Diagnosis" />
 
 
+
         <Style TargetType="Button">
             <Setter Property="Margin" Value="2" />
             <Setter Property="Background" Value="CornflowerBlue" />
+
+            <Style.Triggers>
+
+                <Trigger Property="IsFocused" Value="true" >
+                    <Setter Property="Background" Value="LightSkyBlue"/>
+                </Trigger>
+            </Style.Triggers>
+
         </Style>
     </Window.Resources>
     <Window.CommandBindings>
@@ -45,18 +57,19 @@
 
 
 
-        
+
     </Window.CommandBindings>
 
 
     <Grid Margin="5,5,-8,10">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="1.2*" />
-            <ColumnDefinition Width="1.2*" />
+            <ColumnDefinition Width="303*" />
+            <ColumnDefinition Width="66*" />
+            <ColumnDefinition Width="298*"/>
+            <ColumnDefinition Width="364*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Margin="5" Orientation="Vertical">
+        <StackPanel Margin="5,5,5.235,5.5" Orientation="Vertical">
             <!--#region Top Buttons-->
             <Button
                 x:Name="Arlo"
@@ -83,19 +96,84 @@
                 Content="Clear Filter" Click="ClearFilterButton_Click" />
             <!--#endregion-->
             <!--#region SearchBox-->
-            <Label Target="{Binding ElementName=Intellibox}" Margin="0 8 0 0">_Search</Label>
-            <auto:Intellibox ResultsHeight="280"
+
+            <dotNetKitControls:AutoCompleteComboBox
+                Margin="5"
+                SelectedValuePath="Id"
+                TextSearch.TextPath="Name"
+                ItemsSource="{Binding Path=DiagnosisViewSource.Source}"
+                SelectedItem="{Binding SelectedItem}"
+                SelectedValue="{Binding SelectedValue}"
+                DisplayMemberPath="Name"/>
+
+
+            <wpfauto:CompletableTextBox 
+                Name="WpfAutoCompBox" 
+                Background="AntiqueWhite"
+                Margin="5"/>
+
+
+
+
+                <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20px" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="20px" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="10px" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right">Selected Value:</TextBlock>
+                <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding ElementName=autoBox, Path=SelectedValue}" />
+
+                <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right">Selected Item:</TextBlock>
+                <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding ElementName=autoBox, Path=SelectedItem}" />
+
+                <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right">Highlighted Value:</TextBlock>
+                <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding ElementName=autoBox, Path=DisplayTextFromHighlightedItem}" />
+
+                <TextBlock Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,6,0">Search:</TextBlock>
+                <auto:Intellibox 
+                    Grid.Row="5" Grid.Column="2"
+                    Width="200" Name="autoBox" SelectAllOnFocus="True" HorizontalAlignment="Left"
+                    DisplayedValueBinding="{Binding Name}"
+                    SelectedValueBinding="{Binding Name}"
+                    DataProvider="{Binding Path=SearchAutoCompleteProvider}"
+                    SelectedItem="{Binding SelectedItem}"
+                    SelectedValue="{Binding SelectedValue}"
+                />
+            </Grid>
+
+
+
+
+
+
+
+
+            <Label Target="{Binding ElementName=Intellibox}" Margin="0 8 0 0" Style="{DynamicResource IntelliBoxStyle}">_Search</Label>
+            <auto:Intellibox 
                              x:Name="Intellibox"
                              Margin="8"
                              SelectAllOnFocus="True"
                              ExplicitlyIncludeColumns="True"
-                             
+                             ResultsMaxWidth="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}"
+                             ResultsMinHeight="20"
+                             ResultsMaxHeight="300"
+                             HideColumnHeaders="True"
                              DisplayedValueBinding="{Binding Name}"
                              SelectedValueBinding="{Binding Name}"
                              DataProvider="{Binding Path=SearchAutoCompleteProvider}"
                              Height="26"
                              VerticalAlignment="Top">
-         
+
             </auto:Intellibox>
 
 
@@ -119,8 +197,8 @@
                       Text="Search Diagnoses" Foreground="#FF050EC3" Style="{DynamicResource SearchBoxStyle}">
                 <ComboBox.ItemContainerStyle>
                     <Style TargetType="ComboBoxItem">
-                        <Setter Property="Background" Value="Yellow" />
-                        <Setter Property="BorderBrush" Value="Yellow" />
+                        <Setter Property="Background" Value="Lightgreen" />
+                        <Setter Property="BorderBrush" Value="LightSeaGreen" />
                         <EventSetter Event="ComboBoxItem.PreviewMouseDown"
                                      Handler="cmbItem_PreviewMouseDown" />
                     </Style>
@@ -147,7 +225,7 @@
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
         </StackPanel>
-        <StackPanel VerticalAlignment="Bottom">
+        <StackPanel VerticalAlignment="Bottom" Margin="0,0,0.235,-0.5">
             <TextBlock Margin="0 9 0 8" Text="Codes" />
             <TextBox x:Name="GreenTextBox"
                      Background="#AACCAA"
@@ -166,7 +244,7 @@
         </StackPanel>
 
 
-        <DockPanel Margin="4,5,8,5" Name="PreviewContainer" Grid.Column="1" DockPanel.Dock="Top">
+        <DockPanel Margin="3.765,5,8.118,5.5" Name="PreviewContainer" Grid.Column="1" Grid.ColumnSpan="2">
             <TextBox DockPanel.Dock="Top"
                      IsReadOnly="True"
                      Background="#FFAFEABD"
@@ -197,7 +275,7 @@
                 </SpellCheck.CustomDictionaries>
             </TextBox>
         </DockPanel>
-        <DockPanel Margin="0,5,14,5" Name="EditContainer" Grid.Column="2" DockPanel.Dock="Top">
+        <DockPanel Margin="298,5,14.001,5.5" Name="EditContainer" Grid.Column="2" Grid.ColumnSpan="2">
             <TextBox DockPanel.Dock="Top"
                      IsReadOnly="True"
                      Background="#AAAACC"

@@ -26,6 +26,11 @@ namespace WpfTest
             SelectedDiagnosis = DiagnosisCollection.First();
             Closed += MainWindow_Closed;
             SearchAutoCompleteProvider = new SearchAutoCompleteProvider();
+
+// for WPF AutoCompleteBox:
+            var manager = new WPFAutoCompleteBox.Core.AutoCompleteManager(WpfAutoCompBox);
+            manager.DataProvider = new WpfAutoCompBoxProvider(DiagnosisCollection); // Companies would be an ObservableCollection of Company objects
+
             Intellibox.Focus();
         }
 
