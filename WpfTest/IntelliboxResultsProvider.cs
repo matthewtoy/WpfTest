@@ -9,22 +9,28 @@ namespace WpfTest
 
         IEnumerable IIntelliboxResultsProvider.DoSearch(string searchTerm, int maxResults, object extraInfo)
         {
-            var coll = new ObservableCollection<Diagnosis>();
+            var coll = new ObservableCollection<string>();
             foreach (var d in MainWindow.DiagnosisCollection)
             {
                 if (d.Name.ToLower().Contains(searchTerm.ToLower()))
                 {
-                    coll.Add(d);
+                    coll.Add(d.Name);
                 }
 
-                if (coll.Count == 0)
+
+            }
+
+
+            if (coll.Count == 0)
+            {
+                foreach (var d in MainWindow.DiagnosisCollection)
                 {
-                    if (d.Text.ToLower().Contains(searchTerm.ToLower()))
-                    {
-                        coll.Add(d);
-                    }
+                if (d.Text.ToLower().Contains(searchTerm.ToLower()))
+                {
+                    coll.Add(d.Name + " - contained in text");
                 }
             }
+        }
 
             return coll;
         }

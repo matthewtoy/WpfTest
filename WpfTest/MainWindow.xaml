@@ -106,7 +106,7 @@
                 SelectedValue="{Binding SelectedValue}"
                 DisplayMemberPath="Name"/>
 
-
+<!--This is the one I think.  Simple - customizable in source, fast and reliable.-->
             <wpfauto:CompletableTextBox 
                 Name="WpfAutoCompBox" 
                 Background="AntiqueWhite"
@@ -166,6 +166,7 @@
                              ExplicitlyIncludeColumns="True"
                              ResultsMaxWidth="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}"
                              ResultsMinHeight="20"
+                ResultsMinWidth="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}"
                              ResultsMaxHeight="300"
                              HideColumnHeaders="True"
                              DisplayedValueBinding="{Binding Name}"

@@ -1,4 +1,19 @@
 ﻿
+OH MY GOD - THE FRUSTRATION THIS CAUSED.  Almost implemented custom manual popup placement.
+The other issue is that the 'Handedness' setting has become corrupted or changed. To change this, follow these steps.
+Press the Windows logo key+R to bring up the Run dialog box. In the Open line, copy/paste the following line of text.
+
+shell:::{80F3F1D5-FECA-45F3-BC32-752C152E456E}
+
+Press OK.
+This will start the Tablet PC Settings configuration dialog (Even if you do not have a Tablet PC).
+Select the Other Tab.
+In the Handedness section, place a check mark in the Left Handed option.
+Click OK.
+This should place the menus on the right side.
+Let us know the results.
+Thank You for using Windows 7
+
 
 			Do need XMLreader? - currently using TextReader/Writer
 

@@ -70,7 +70,7 @@
     <Compile Include="FilterController.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Repository.cs" />
-    <Compile Include="SearchAutoCompleteProvider.cs" />
+    <Compile Include="IntelliboxResultsProvider.cs" />
     <Compile Include="TextBoxController.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
