@@ -1,4 +1,19 @@
-﻿
+﻿Current todo:
+	1. Clean out dud search boxes and buttons from UI.
+	2. Delete unneeded files
+	3. Start creating view models in folder.
+	4. Put Model/s in folder.
+	5. Redo commands like AngelSix
+	6. Use viewmodel Base class with fody weaver.
+	7. Think about whether need any attached properties (Use AngelSix method if so)
+	8. Define a set of colours.
+	9. Change to rich text boxes with model for flow document text.
+	10. View model flow doc overlay for hot sessions and diff display etc.
+	11. DONE - Make XML persistence class generic.
+	12. Think about dependency injection.
+	13. Review!
+
+
 OH MY GOD - THE FRUSTRATION THIS CAUSED.  Almost implemented custom manual popup placement.
 The other issue is that the 'Handedness' setting has become corrupted or changed. To change this, follow these steps.
 Press the Windows logo key+R to bring up the Run dialog box. In the Open line, copy/paste the following line of text.
@@ -25,7 +40,7 @@ Thank You for using Windows 7
 			Then filter view of buttons by those tags (hardcode a tag to begin with )
 
 			Then need to separate object of single diagnosis with whole text-edited report.
-			Should be able to edit diagnosis test and offer save over or save as varient.
+			Should be able to edit diagnosis text and offer save over or save as varient.
 			Then add it to main report text.
 			Textbox should switch views by binding to a view controler object which has current display text.
 

@@ -5,8 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Media;
-using MessageBox = System.Windows.Forms.MessageBox;
+using WPFAutoCompleteBox.Core;
 
 namespace WpfTest
 {
@@ -19,19 +18,18 @@ namespace WpfTest
         {
             InitializeComponent();
             DataContext = this;
-            Repository = new Repository(DiagnosisCollection, initialDiagnosisXML);
+            Repository = new Repository<Diagnosis>(DiagnosisCollection, initialDiagnosisXML);
             DiagnosisCollection = Repository.LoadCollection();
             DiagnosisViewSource = new CollectionViewSource();
             DiagnosisViewSource.Source = DiagnosisCollection;
             SelectedDiagnosis = DiagnosisCollection.First();
             Closed += MainWindow_Closed;
-            SearchAutoCompleteProvider = new SearchAutoCompleteProvider();
 
 // for WPF AutoCompleteBox:
-            var manager = new WPFAutoCompleteBox.Core.AutoCompleteManager(WpfAutoCompBox);
-            manager.DataProvider = new WpfAutoCompBoxProvider(DiagnosisCollection); // Companies would be an ObservableCollection of Company objects
-
-            Intellibox.Focus();
+            var manager = new AutoCompleteManager(WpfAutoCompBox);
+            manager.DataProvider =
+                new WpfAutoCompBoxProvider(
+                    DiagnosisCollection); // Companies would be an ObservableCollection of Company objects
         }
 
         #endregion Constructor
@@ -42,8 +40,7 @@ namespace WpfTest
         public Diagnosis SelectedDiagnosis { get; set; }
         public CollectionViewSource DiagnosisViewSource { get; set; }
         public static ObservableCollection<Diagnosis> DiagnosisCollection { get; set; }
-        public Repository Repository { get; set; }
-        public SearchAutoCompleteProvider SearchAutoCompleteProvider { get; set; }
+        public Repository<Diagnosis> Repository { get; set; }
 
         #endregion
 
@@ -108,19 +105,6 @@ namespace WpfTest
             PrintDiagnosis(diagnosis);
         }
 
-        private void SearchBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            var name = SearchBox.Text;
-
-            if (e.Key != Key.Enter) return;
-
-            if (DiagnosisCollection.All(d => d.Name != name)) return;
-            {
-                var diagnosis = DiagnosisCollection.First(d => d.Name == name);
-                if (diagnosis == null) return;
-                PrintDiagnosis(diagnosis);
-            }
-        }
 
         private void SearchBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -145,25 +129,6 @@ namespace WpfTest
         {
 //           NameTextBox.Text = e.Text;
 //            NameTextBox.Text = SearchBox.Text;
-        }
-
-        private void SearchBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var item = sender as ComboBox;
-            if (item == null || e == null) return;
-            if (e.AddedItems == null || e.AddedItems.Count < 1) return;
-            var diagnosis = e.AddedItems[0] as Diagnosis;
-            if (diagnosis == null) return;
-            TextBoxController.ReplaceTextBox(diagnosis.Text, PreviewBox);
-            SearchBox.Focus();
-        }
-
-        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            var text = SearchBox.Text;
-
-            FilterController.SetSearchAsTypeFilter(text);
-            e.Handled = false;
         }
 
         #endregion SearchBox Input Methods
@@ -250,15 +215,6 @@ namespace WpfTest
             NameTextBox.Text = "Deleted: " + diagnosis.Name;
         }
 
-
-
-        private void CommandBinding_SearchBoxFocusCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            Intellibox.Focus();
-        }
-
-
-
         #endregion Command Methods
 
         #region Command CanExecute Method Stubs
@@ -287,6 +243,7 @@ namespace WpfTest
         {
             e.CanExecute = true;
         }
+
         #endregion
 
         #region Top Button Event Handlers
@@ -311,9 +268,6 @@ namespace WpfTest
             FilterController.ClearFilter();
         }
 
-
         #endregion
-
-
     }
 }

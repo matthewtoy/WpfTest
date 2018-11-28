@@ -4,32 +4,32 @@ using System.Xml.Serialization;
 
 namespace WpfTest
 {
-    public class Repository
+    public class Repository<T>
     {
-        private readonly ObservableCollection<Diagnosis> _collection;
+        private readonly ObservableCollection<T> _collection;
         private readonly string _path;
 
-        public Repository(ObservableCollection<Diagnosis> collection, string path)
+        public Repository(ObservableCollection<T> collection, string path)
         {
             _path = path;
             _collection = collection;
         }
 
-        public ObservableCollection<Diagnosis> LoadCollection()
+        public ObservableCollection<T> LoadCollection()
         {
             if (!File.Exists(_path))
                 throw new FileNotFoundException("XML File: " + _path + " not found");
 
-            var serializer = new XmlSerializer(typeof(ObservableCollection<Diagnosis>));
+            var serializer = new XmlSerializer(typeof(ObservableCollection<T>));
             using (TextReader reader = new StreamReader(_path))
             {
-                return serializer.Deserialize(reader) as ObservableCollection<Diagnosis>;
+                return serializer.Deserialize(reader) as ObservableCollection<T>;
             }
         }
 
-        public void SaveCollection(ObservableCollection<Diagnosis> collection)
+        public void SaveCollection(ObservableCollection<T> collection)
         {
-            var serializer = new XmlSerializer(typeof(ObservableCollection<Diagnosis>));
+            var serializer = new XmlSerializer(typeof(ObservableCollection<T>));
             using (TextWriter writer = new StreamWriter(_path))
             {
                 serializer.Serialize(writer, collection);

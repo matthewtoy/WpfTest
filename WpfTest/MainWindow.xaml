@@ -6,10 +6,7 @@
         xmlns:sys="clr-namespace:System;assembly=system"
         xmlns:local="clr-namespace:WpfTest"
         xmlns:w="clr-namespace:WpfTest"
-        xmlns:auto="clr-namespace:FeserWard.Controls;assembly=Intellibox"
         xmlns:wpfauto="clr-namespace:WPFAutoCompleteBox.Controls;assembly=WPFAutoCompleteBox"
-        xmlns:AC="clr-namespace:WPFAutoCompleteBox.Controls;assembly=WPFAutoCompleteBox"
-        xmlns:dotNetKitControls="clr-namespace:DotNetKit.Windows.Controls;assembly=DotNetKit.Wpf.AutoCompleteComboBox"
 
         mc:Ignorable="d"
         Title="Reporter" Height="661.5" Width="1036"
@@ -20,16 +17,14 @@
         <RoutedUICommand x:Key="AddDiagnosisCommand" Text="Add Diagnosis" />
         <RoutedUICommand x:Key="SaveReportAsDiagnosisCommand" Text="Save as new Diagnosis" />
 
-
-
         <Style TargetType="Button">
             <Setter Property="Margin" Value="2" />
             <Setter Property="Background" Value="CornflowerBlue" />
 
             <Style.Triggers>
 
-                <Trigger Property="IsFocused" Value="true" >
-                    <Setter Property="Background" Value="LightSkyBlue"/>
+                <Trigger Property="IsFocused" Value="true">
+                    <Setter Property="Background" Value="LightSkyBlue" />
                 </Trigger>
             </Style.Triggers>
 
@@ -50,12 +45,6 @@
         <CommandBinding Command="{x:Static w:Commands.DeleteDiagnosisCommand}"
                         CanExecute="CommandBinding_DeleteDiagnosisCommand_CanExecute"
                         Executed="CommandBinding_DeleteDiagnosis_Executed" />
-        <CommandBinding Command="{x:Static w:Commands.SearchBoxFocusCommand}"
-                        CanExecute="CommandBinding_SearchBoxFocusCommand_CanExecute"
-                        Executed="CommandBinding_SearchBoxFocusCommand_Executed" />
-
-
-
 
 
     </Window.CommandBindings>
@@ -65,7 +54,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="303*" />
             <ColumnDefinition Width="66*" />
-            <ColumnDefinition Width="298*"/>
+            <ColumnDefinition Width="298*" />
             <ColumnDefinition Width="364*" />
         </Grid.ColumnDefinitions>
 
@@ -97,114 +86,14 @@
             <!--#endregion-->
             <!--#region SearchBox-->
 
-            <dotNetKitControls:AutoCompleteComboBox
-                Margin="5"
-                SelectedValuePath="Id"
-                TextSearch.TextPath="Name"
-                ItemsSource="{Binding Path=DiagnosisViewSource.Source}"
-                SelectedItem="{Binding SelectedItem}"
-                SelectedValue="{Binding SelectedValue}"
-                DisplayMemberPath="Name"/>
 
-<!--This is the one I think.  Simple - customizable in source, fast and reliable.-->
-            <wpfauto:CompletableTextBox 
-                Name="WpfAutoCompBox" 
-                Background="AntiqueWhite"
-                Margin="5"/>
+            <!--This is the one I think.  Simple - customizable in source, fast and reliable.-->
+            <wpfauto:CompletableTextBox
+                Margin ="5 15 5 5"
+                Name="WpfAutoCompBox"
+                Background="AntiqueWhite" />
 
 
-
-
-                <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="20px" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="20px" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="10px" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right">Selected Value:</TextBlock>
-                <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding ElementName=autoBox, Path=SelectedValue}" />
-
-                <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right">Selected Item:</TextBlock>
-                <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding ElementName=autoBox, Path=SelectedItem}" />
-
-                <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right">Highlighted Value:</TextBlock>
-                <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding ElementName=autoBox, Path=DisplayTextFromHighlightedItem}" />
-
-                <TextBlock Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,6,0">Search:</TextBlock>
-                <auto:Intellibox 
-                    Grid.Row="5" Grid.Column="2"
-                    Width="200" Name="autoBox" SelectAllOnFocus="True" HorizontalAlignment="Left"
-                    DisplayedValueBinding="{Binding Name}"
-                    SelectedValueBinding="{Binding Name}"
-                    DataProvider="{Binding Path=SearchAutoCompleteProvider}"
-                    SelectedItem="{Binding SelectedItem}"
-                    SelectedValue="{Binding SelectedValue}"
-                />
-            </Grid>
-
-
-
-
-
-
-
-
-            <Label Target="{Binding ElementName=Intellibox}" Margin="0 8 0 0" Style="{DynamicResource IntelliBoxStyle}">_Search</Label>
-            <auto:Intellibox 
-                             x:Name="Intellibox"
-                             Margin="8"
-                             SelectAllOnFocus="True"
-                             ExplicitlyIncludeColumns="True"
-                             ResultsMaxWidth="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}"
-                             ResultsMinHeight="20"
-                ResultsMinWidth="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}"
-                             ResultsMaxHeight="300"
-                             HideColumnHeaders="True"
-                             DisplayedValueBinding="{Binding Name}"
-                             SelectedValueBinding="{Binding Name}"
-                             DataProvider="{Binding Path=SearchAutoCompleteProvider}"
-                             Height="26"
-                             VerticalAlignment="Top">
-
-            </auto:Intellibox>
-
-
-
-            <Label Target="{Binding ElementName=SearchBox}" Margin="0 8 0 0">_CSearch</Label>
-            <!--It's using the toString of Diagnosis objects for name display:'-->
-            <ComboBox x:Name="SearchBox"
-                      SelectionChanged="SearchBox_OnSelectionChanged"
-                      TextBoxBase.TextChanged="SearchBox_TextChanged"
-                      KeyDown="SearchBox_KeyDown"
-                      PreviewKeyDown="SearchBox_PreviewKeyDown"
-                      PreviewTextInput="SearchBox_TextInput"
-                      IsEditable="True"
-                      IsSynchronizedWithCurrentItem="True"
-                      ItemsSource="{Binding Path=DiagnosisViewSource.Source}"
-                      DisplayMemberPath="Name"
-                      SelectedValuePath="Name"
-                      Background="#FFFBFFFB"
-                      Margin="0 5 0 5"
-                      Padding="2"
-                      Text="Search Diagnoses" Foreground="#FF050EC3" Style="{DynamicResource SearchBoxStyle}">
-                <ComboBox.ItemContainerStyle>
-                    <Style TargetType="ComboBoxItem">
-                        <Setter Property="Background" Value="Lightgreen" />
-                        <Setter Property="BorderBrush" Value="LightSeaGreen" />
-                        <EventSetter Event="ComboBoxItem.PreviewMouseDown"
-                                     Handler="cmbItem_PreviewMouseDown" />
-                    </Style>
-                </ComboBox.ItemContainerStyle>
-            </ComboBox>
             <!--#endregion Searchbox-->
 
             <Label Margin="0 10 0 0" Content="Diagnoses:" />
