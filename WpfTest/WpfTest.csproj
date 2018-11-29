@@ -38,7 +38,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationFramework.Aero" />
     <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="PropertyChanged, Version=2.5.14.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
       <HintPath>..\packages\PropertyChanged.Fody.2.5.14\lib\net452\PropertyChanged.dll</HintPath>
@@ -59,9 +58,6 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WPFAutoCompleteBox">
-      <HintPath>..\..\wpf-autocomplete-box\WPFAutoCompleteBox\bin\Debug\WPFAutoCompleteBox.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -74,6 +70,12 @@
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="TextBoxController.cs" />
+    <Compile Include="WPFAutoCompleteBox\Controls\CompletableTextBox.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="WPFAutoCompleteBox\Core\AutoCompleteManager.cs" />
+    <Compile Include="WPFAutoCompleteBox\Provider\IAutoAppendDataProvider.cs" />
+    <Compile Include="WPFAutoCompleteBox\Provider\IAutoCompleteDataProvider.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -88,6 +90,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="WPFAutoCompleteBox\Controls\Resources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -103,6 +109,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="WPFAutoCompleteBox\Resources\Resources.resx" />
     <Resource Include="CustomSpellCheckDictionary.lex" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:sys="clr-namespace:System;assembly=system"
         xmlns:local="clr-namespace:WpfTest"
-        xmlns:w="clr-namespace:WpfTest"
-        xmlns:wpfauto="clr-namespace:WPFAutoCompleteBox.Controls;assembly=WPFAutoCompleteBox"
+        xmlns:wpfauto="clr-namespace:WPFAutoCompleteBox.Core"
+        xmlns:controls="clr-namespace:WPFAutoCompleteBox.Controls"
 
         mc:Ignorable="d"
         Title="Reporter" Height="661.5" Width="1036"
@@ -31,18 +31,18 @@
         </Style>
     </Window.Resources>
     <Window.CommandBindings>
-        <CommandBinding Command="{x:Static w:Commands.PrintDiagnosisCommand}"
+        <CommandBinding Command="{x:Static local:Commands.PrintDiagnosisCommand}"
                         Executed="CommandBinding_PrintDiagnosisCommand" />
-        <CommandBinding Command="{x:Static w:Commands.SaveAsNewDiagnosisCommand}"
+        <CommandBinding Command="{x:Static local:Commands.SaveAsNewDiagnosisCommand}"
                         CanExecute="CommandBinding_SaveReportAsDiagnosisCommand_CanExecute"
                         Executed="CommandBinding_SaveAsNewDiagnosisCommand" />
-        <CommandBinding Command="{x:Static w:Commands.SaveAsVariantCommand}"
+        <CommandBinding Command="{x:Static local:Commands.SaveAsVariantCommand}"
                         CanExecute="CommandBinding_SaveAsVariantCommand_CanExecute"
                         Executed="CommandBinding_SaveAsVariant_Executed" />
-        <CommandBinding Command="{x:Static w:Commands.SaveOverExistingCommand}"
+        <CommandBinding Command="{x:Static local:Commands.SaveOverExistingCommand}"
                         CanExecute="CommandBinding_SaveOverExistingCommand_CanExecute"
                         Executed="CommandBinding_SaveOverExisting_Executed" />
-        <CommandBinding Command="{x:Static w:Commands.DeleteDiagnosisCommand}"
+        <CommandBinding Command="{x:Static local:Commands.DeleteDiagnosisCommand}"
                         CanExecute="CommandBinding_DeleteDiagnosisCommand_CanExecute"
                         Executed="CommandBinding_DeleteDiagnosis_Executed" />
 
@@ -62,18 +62,18 @@
             <!--#region Top Buttons-->
             <Button
                 x:Name="Arlo"
-                Command="{x:Static w:Commands.SaveAsNewDiagnosisCommand}"
+                Command="{x:Static local:Commands.SaveAsNewDiagnosisCommand}"
                 CommandTarget="{Binding ElementName=EditBox}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
 
             <Button
-                Command="{x:Static w:Commands.SaveAsVariantCommand}"
+                Command="{x:Static local:Commands.SaveAsVariantCommand}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
             <Button
-                Command="{x:Static w:Commands.SaveOverExistingCommand}"
+                Command="{x:Static local:Commands.SaveOverExistingCommand}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
             <Button
-                Command="{x:Static w:Commands.DeleteDiagnosisCommand}"
+                Command="{x:Static local:Commands.DeleteDiagnosisCommand}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
             <Button
                 Content="Sort A-Z" Click="SortAZButton_Click" />
@@ -88,9 +88,9 @@
 
 
             <!--This is the one I think.  Simple - customizable in source, fast and reliable.-->
-            <wpfauto:CompletableTextBox
+            <controls:CompletableTextBox
                 Margin ="5 15 5 5"
-                Name="WpfAutoCompBox"
+                x:Name="WpfAutoCompBox"
                 Background="AntiqueWhite" />
 
 
@@ -104,7 +104,7 @@
                                 Content="{Binding Name}"
 
                                 Tag="{Binding}"
-                                Command="{x:Static w:Commands.PrintDiagnosisCommand}" />
+                                Command="{x:Static local:Commands.PrintDiagnosisCommand}" />
                         <!-- CommandParameter="{Binding ElementName=DiagnosisButton}"/> -->
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using WPFAutoCompleteBox.Controls;
 using WPFAutoCompleteBox.Core;
 
 namespace WpfTest
@@ -24,8 +25,9 @@ namespace WpfTest
             DiagnosisViewSource.Source = DiagnosisCollection;
             SelectedDiagnosis = DiagnosisCollection.First();
             Closed += MainWindow_Closed;
+ 
 
-// for WPF AutoCompleteBox:
+// for WPF AutoCompleteBox (this is the s2progger one)
             var manager = new AutoCompleteManager(WpfAutoCompBox);
             manager.DataProvider =
                 new WpfAutoCompBoxProvider(
