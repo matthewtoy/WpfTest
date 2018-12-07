@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ArrayOfDiagnosis xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Diagnosis>
     <Name>Fred</Name>
@@ -12,7 +11,7 @@
     <Text>
       Kindness is the language which the deaf can hear and the blind can see.
     </Text>
-    <UseCount>1</UseCount>
+    <UseCount>2</UseCount>
     <DiagnosisGroup>Samantha</DiagnosisGroup>
   </Diagnosis>
   <Diagnosis>
@@ -58,7 +57,7 @@
     <Text>
       Substitute 'damn' every time you're inclined to write 'very;' your editor will delete it and the writing will be just as it should be.
     </Text>
-    <UseCount>8</UseCount>
+    <UseCount>9</UseCount>
     <DiagnosisGroup>skin</DiagnosisGroup>
   </Diagnosis>
   <Diagnosis>

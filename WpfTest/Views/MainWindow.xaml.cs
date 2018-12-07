@@ -38,7 +38,7 @@ namespace WpfTest
 
         #region Fields and Props
 
-        private readonly string initialDiagnosisXML = @".\InitialDiagnoses.xml";
+        private readonly string initialDiagnosisXML = "Core/InitialDiagnoses.xml";
         public Diagnosis SelectedDiagnosis { get; set; }
         public CollectionViewSource DiagnosisViewSource { get; set; }
         public static ObservableCollection<Diagnosis> DiagnosisCollection { get; set; }
